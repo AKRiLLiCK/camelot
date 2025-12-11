@@ -77,5 +77,4 @@ Camelot/
 **License:** MIT
 
 ### Assets
-
-  * \<a href="https://www.flaticon.com/free-icons/hexagon" title="hexagon icons"\>Hexagon icons created by Solarus - Flaticon\</a\>
+\<a href="https://www.flaticon.com/free-icons/hexagon" title="hexagon icons"\>Hexagon icons created by Solarus - Flaticon\</a\>
