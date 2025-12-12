@@ -1,61 +1,78 @@
 <div align="center">
-  <img src="logo.png" alt="Camelot Logo" width="180" />
-  <h1>Camelot Framework</h1>
-  <p><strong>Make C Safe Again.</strong></p>
-  
-  <p>
-    <a href="#-philosophy">Philosophy</a> •
-    <a href="#-features">Features</a> •
-    <a href="#-quick-start">Quick Start</a> •
-    <a href="#-credits">Credits</a>
-  </p>
+
+<img src="logo.png" alt="Camelot Logo" width="200"/>
+
+# Camelot Framework
+
+**Re-Imagining C for Modern Engineering.** *A modern fortress for a foundational language. 🏰*
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Standard: C11](https://img.shields.io/badge/standard-C11-blue.svg)](https://en.wikipedia.org/wiki/C11_(C_standard_revision))
+[![Safety: Enforced](https://img.shields.io/badge/safety-enforced-red.svg)](include/camelot.h)
+[![Build: Make](https://img.shields.io/badge/build-makefile-green.svg)](Makefile)
+
+[**Philosophy**](#-philosophy) • [**The Barrier**](#-the-barrier) • [**Quick Start**](#-getting-started) • [**Internals**](#-project-structure)
+
 </div>
 
 ---
 
-## 🏰 Philosophy
+## 📘 Philosophy: The Wilderness vs. The Fortress
 
-**University teaches us to survive in the wilderness.** We are taught to manually manage memory with `malloc` and `free`, parse raw text with `scanf`, and juggle `char*` pointers without safety nets. This leads to memory leaks, buffer overflows, and undefined behavior.
+University teaches us to survive in the **Wilderness**.
+We are taught to manually manage memory with `malloc` and `free`, parse raw text with `scanf`, and juggle `char*` pointers without safety nets. This leads to memory leaks, buffer overflows, and undefined behavior.
 
-**Camelot builds a fortress.**
-This framework enforces modern engineering practices on top of C11. It "poisons" legacy unsafe functions at the compiler level, forcing the developer to use safer, region-based memory management and sanitized I/O.
+**Camelot builds a Fortress.**
+This framework enforces modern engineering practices on top of C. It "poisons" legacy unsafe functions at the compiler level, forcing the developer to use safer, region-based memory management and sanitized I/O.
 
-## 🛡️ Features
-
-### 1. The Poison Barrier 🚫
-Camelot uses GCC preprocessor directives to **ban** standard unsafe functions. If you try to use them, your code will not compile.
-* **Banned:** `malloc`, `free`, `realloc`, `calloc`
-* **Banned:** `scanf`, `gets`, `strcpy`, `strcat`
-
-### 2. Linear Memory Arenas (The Engine) 🧠
-Forget fragmentation and memory leaks. Camelot uses **Region-Based Memory Management**.
-* **O(1) Allocation:** Memory is allocated by bumping a pointer. No syscalls per object.
-* **O(1) Deallocation:** You don't free variables. You wipe the entire Arena instantly.
-* **Scoped Safety:** Supports `__attribute__((cleanup))` for automatic scope-based resource management.
-
-### 3. Sanitized I/O 📝
-Input processing that doesn't break your program.
-* **`c_read()`**: Handles buffering, parsing, and validation internally. No more infinite loops from `scanf`.
-* **`String`**: A proper struct with a pointer and length. No more missing null-terminator bugs.
+**The Goal:** Write C that feels like a modern language.
+- ❌ **Banned:** No manual `free()` calls. No `scanf` loops.
+- ✅ **Safe:** Memory is handled by Linear Arenas (O(1) allocation).
+- ✅ **Typed:** Strings are structs, not raw pointers.
 
 ---
 
-## 🚀 Quick Start
+## 🛡️ The Barrier
+
+Camelot uses GCC preprocessor directives to **physically prevent** unsafe code from compiling.
+
+| Feature | Description | Status |
+| :--- | :--- | :--- |
+| **Poison Barrier** 🚫 | Blocks `malloc`, `free`, `scanf`, `gets`, `strcpy`. | 🟢 Active |
+| **Linear Arena** 🧠 | Region-based memory. Allocations are instant pointers bumps. | 🟢 Active |
+| **Auto-Cleanup** 🧹 | Uses `__attribute__((cleanup))` for scoped deallocation. | 🟡 WIP |
+| **Input Sanitizer** 📝 | Replaces `scanf` with buffered, type-safe readers. | 🟢 Active |
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
 * GCC or Clang
 * Make
 
-### Installation
-Clone the repository:
-```bash
-git clone [https://github.com/yourusername/camelot.git](https://github.com/yourusername/camelot.git)
-cd camelot
-````
+### Workflow
+
+1. **Clone the repo:**
+   ```bash
+   git clone [https://github.com/yourusername/camelot.git](https://github.com/yourusername/camelot.git)
+   cd camelot
+   ```
+
+2.  **Build the framework:**
+
+    ```bash
+    make
+    ```
+
+3.  **Start Coding:**
+    Link your `main.c` against the Camelot object files. If you try to use banned functions like `malloc` or `scanf`, the compiler will throw an error and stop the build.
 
 -----
 
 ## 📂 Project Structure
+
+A clean, ISO-standard C structure designed for portability.
 
 ```text
 Camelot/
@@ -71,10 +88,18 @@ Camelot/
 
 -----
 
+## 📄 License
+
+MIT — Use, fork, learn, experiment.  
+See [LICENSE](https://www.google.com/search?q=LICENSE) for details.
+
 ## 🎨 Credits
 
-**Author:** Acrilic  
-**License:** MIT
+**Author:** Acrilic
 
 ### Assets
-* Logo by Solarus
+
+  * Logo made by [Solarus](https://www.flaticon.com/free-icon/cube_17533083)
+
+```
+```
