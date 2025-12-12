@@ -17,16 +17,20 @@ Re-Imagining C for modern engineering. A framework enforcing safety, ergonomics,
 
 ## 📘 Philosophy
 
-University teaches us to survive in the **Wilderness**.
-We are taught to manually manage memory with `malloc` and `free`, parse raw text with `scanf`, and juggle `char*` pointers without safety nets. This leads to memory leaks, buffer overflows, and undefined behavior.
+C is often dismissed as "legacy"—a dangerous relic destined to be replaced. **This view ignores reality.**
 
-**Camelot builds a Fortress.**
-This framework enforces modern engineering practices on top of C. It "poisons" legacy unsafe functions at the compiler level, forcing the developer to use safer, region-based memory management and sanitized I/O.
+The world's most critical infrastructure—from the **Linux Kernel** to **Git**, **Redis**, and **SQLite**—is built on C. It remains the gold standard for portability and stability. Experienced engineers don't hate C; they love it for its **honesty**. In C, there is no hidden garbage collector, no massive runtime, and no "magic" slowing you down. It is surprisingly ergonomic when stripped of its historical baggage.
 
-**The Goal:** Write C that feels like a modern language.
-- ❌ **Banned:** No manual `free()` calls. No `scanf` loops.
-- ✅ **Safe:** Memory is handled by Linear Arenas (O(1) allocation).
-- ✅ **Typed:** Strings are structs, not raw pointers.
+**The "pain" of C comes from the archaic patterns taught in academia.**
+Universities train us to manually `free()` every single allocation and wrestle with brittle `scanf` parsing. That isn't "systems programming"—that is just bad engineering. Real-world systems programmers use **Memory Arenas** to handle allocations instantly and **Data-Oriented patterns** to manage state.
+
+**Camelot brings this "Senior Engineer" workflow to the forefront.**
+We strip away the friction of the 1989 standard library to reveal the high-performance, expressive language underneath.
+
+**The Goal:** Prove that C is the ultimate tool for modern engineering.
+- ❌ **Banned:** No manual `free()` drudgery. No `scanf` traps.
+- ✅ **Ergonomic:** Memory handling is O(1) and linear via Arenas (just like modern game engines).
+- ✅ **Transparent:** You control the machine, but the machine doesn't fight you.
 
 ---
 
