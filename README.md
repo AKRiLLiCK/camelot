@@ -55,7 +55,7 @@ Camelot uses GCC preprocessor directives to **physically prevent** unsafe code f
 
 1. **Clone the repo:**
    ```bash
-   git clone [https://github.com/yourusername/camelot.git](https://github.com/yourusername/camelot.git)
+   git clone https://github.com/AKRiLLiCK/camelot
    cd camelot
    ```
 
