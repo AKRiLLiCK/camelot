@@ -7,7 +7,7 @@
 **Re-Imagining C for Modern Engineering.** *A modern fortress for a foundational language. 🏰*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Standard: C11](https://img.shields.io/badge/standard-C11-blue.svg)](https://en.wikipedia.org/wiki/C11_(C_standard_revision))
+[![Standard: C23](https://img.shields.io/badge/standard-C23-purple.svg)](https://en.wikipedia.org/wiki/C23_(C_standard_revision))
 [![Safety: Enforced](https://img.shields.io/badge/safety-enforced-red.svg)](include/camelot.h)
 [![Build: Make](https://img.shields.io/badge/build-makefile-green.svg)](Makefile)
 
@@ -100,6 +100,3 @@ See [LICENSE](https://www.google.com/search?q=LICENSE) for details.
 ### Assets
 
   * Logo made by [Solarus](https://www.flaticon.com/free-icon/cube_17533083)
-
-```
-```
