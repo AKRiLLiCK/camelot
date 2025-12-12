@@ -2,9 +2,8 @@
 
 <img src="logo.png" alt="Camelot Logo" width="200"/>
 
-# Camelot Framework
-
-**Re-Imagining C for Modern Engineering.** *A modern fortress for a foundational language. 🏰*
+# Camelot
+Re-Imagining C for modern engineering. A framework enforcing safety, ergonomics, and structural integrity for the C language.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Standard: C23](https://img.shields.io/badge/standard-C23-purple.svg)](https://en.wikipedia.org/wiki/C23_(C_standard_revision))
@@ -16,7 +15,7 @@
 
 ---
 
-## 📘 Philosophy: The Wilderness vs. The Fortress
+## 📘 Philosophy
 
 University teaches us to survive in the **Wilderness**.
 We are taught to manually manage memory with `malloc` and `free`, parse raw text with `scanf`, and juggle `char*` pointers without safety nets. This leads to memory leaks, buffer overflows, and undefined behavior.
