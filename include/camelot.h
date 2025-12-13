@@ -101,6 +101,10 @@ AllocResult c_table_init(Arena *a, Table *table, size_t capacity);
 bool c_table_put(Arena *a, Table *table, const char *key, void *value);
 void *c_table_get(Table *table, const char *key);
 
+// --- API: INPUT / OUTPUT ---
+Str c_fs_read(Arena *a, const char *path);
+bool c_fs_write(const char *path, Str content);
+
 // --- MACROS: UTILITIES ---
 
 // Memory
