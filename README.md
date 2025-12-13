@@ -93,10 +93,11 @@ Camelot/
 
 See `LICENSE` for details.
 
-## 🎨 Credits**
+## 🎨 Credits
 
 **Author:** Acrilic
 **Logo:** [Solarus](https://www.flaticon.com/free-icon/cube_17533083)
+
 
 
 
