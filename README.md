@@ -34,18 +34,6 @@ We strip away the friction of the 1989 standard library to reveal the high-perfo
 
 -----
 
-Yes, you are absolutely correct. Trying to set up a C package manager (like `conan`, `vcpkg`, or `clib`) right now would be **over-engineering** and a massive distraction.
-
-In the C ecosystem, unlike Rust (Cargo) or Node (npm), package managers are not standardized. Forcing a user to install `conan` just to try your experimental framework is a huge barrier to entry.
-
-###Why the "Vendor" (Copy/Paste) approach is better for now:1. **Zero Friction:** The user already has `gcc` and `git`. That is all they should need.
-2. **Transparency:** Since your philosophy is "Construction" and "Fortress," users *should* see the `camelot_memory.c` file in their project. It helps them trust the "magic."
-3. **Fits Your Structure:** Your current structure is designed to be built easily. Breaking it apart for a package registry adds complexity you don't need yet.
-
-Here is the **refined README** section. It respects your folder structure and provides the exact command a user needs to run to make it work, without assuming they have any fancy tools.
-
------
-
 ## 🛡️ Features
 
 Camelot enforces modern engineering practices through a combination of compile-time restrictions and runtime helpers.
