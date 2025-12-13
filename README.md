@@ -47,7 +47,7 @@ Detailed architecture, API references, and tutorials are available on our offici
 
 1.  **Clone the Repository:**
     ```bash
-    git clone [https://github.com/AKRiLLiCK/camelot.git](https://github.com/AKRiLLiCK/camelot.git)
+    git clone https://github.com/AKRiLLiCK/camelot.git
     ```
 
 2.  **Include the Fortress:**
@@ -96,4 +96,5 @@ See `LICENSE` for details.
 ## 🎨 Credits**Author:** Acrilic
 
 **Logo:** [Solarus](https://www.flaticon.com/free-icon/cube_17533083)
+
 
