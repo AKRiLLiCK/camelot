@@ -122,3 +122,11 @@ void c_temp_end(TempArena temp) {
             temp.arena->offset = temp.prev_offset;
       }
 }
+
+// --- IMPLEMENTATION: AUTO SCOPE ---
+
+void c_internal_scope_end(TempArena *temp) {
+      if (temp) {
+            c_temp_end(*temp);
+      }
+}

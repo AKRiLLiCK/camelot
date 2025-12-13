@@ -105,6 +105,10 @@ void *c_table_get(Table *table, const char *key);
 Str c_fs_read(Arena *a, const char *path);
 bool c_fs_write(const char *path, Str content);
 
+// --- API: AUTO SCOPE (RAII) ---
+//      Helper function for the cleanup attribute.
+void c_internal_scope_end(TempArena *temp);
+
 // --- MACROS: UTILITIES ---
 
 // Memory
@@ -113,6 +117,11 @@ bool c_fs_write(const char *path, Str content);
 
 #define c_resize_array(arena, ptr, type, old_count, new_count) \
       c_resize(arena, ptr, sizeof(type) * (old_count), sizeof(type) * (new_count), _Alignof(type))
+
+// Auto-Cleanup (RAII)
+// Placed attribute AFTER variable name to satisfy linters.
+#define c_scope(arena) \
+      TempArena _camelot_scope_##__LINE__ __attribute__((cleanup(c_internal_scope_end))) = c_temp_begin(arena)
 
 // Lists
 #define c_list_init(arena, list_ptr, type, capacity) \
