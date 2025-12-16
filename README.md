@@ -79,13 +79,15 @@ Camelot/
 
 ---
 
-## 📚 DocumentationDetailed architecture, API references, and design principles are available on our official documentation site:
+## 📚 Documentation
+Detailed architecture, API references, and design principles are available on our official documentation site:
 
 👉 **[Read the Camelot Docs](https://camelot-1.gitbook.io/docs/)**
 
 ---
 
-## 📄 License**MIT** — Use, fork, learn, experiment. See `LICENSE` for details.
+## 📄 License
+**MIT** — Use, fork, learn, experiment. See `LICENSE` for details.
 
 ## 🎨 Credits**Author:** Acrilic
 
