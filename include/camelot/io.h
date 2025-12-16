@@ -2,6 +2,13 @@
 #define CAMELOT_IO_H
 
 #include "types/string.h"
+#include "types/primitives.h"
+#include "camelot/memory.h"
+
+typedef struct {
+      void *handle;
+      Result status;
+} File;
 
 // --- FUNCTIONS ---
 
