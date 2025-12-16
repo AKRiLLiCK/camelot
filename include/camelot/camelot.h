@@ -3,7 +3,10 @@
 #ifndef CAMELOT_H
 #define CAMELOT_H
 
+#include "io.h"
+#include "memory.h"
 #include "types/primitives.h"
+#include "types/string.h"
 
 // --- ALLOW UNSAFE ---
 // If the user has NOT explicitly asked for unsafe access,
