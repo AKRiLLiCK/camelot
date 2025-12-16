@@ -1,0 +1,89 @@
+# --- CAMELOT BUILD SYSTEM ---
+
+CC      = gcc
+AR      = ar
+CFLAGS  = -I include -Wall -Wextra -std=c99 -Wno-unused-function
+
+# 1. Source Directories
+SRC_DIR = src
+SRCS    = $(wildcard src/memory/*.c) \
+          $(wildcard src/types/*.c) \
+          $(wildcard src/io/*.c) \
+          $(wildcard src/ds/*.c)
+
+# 2. Object Files
+OBJS    = $(SRCS:.c=.o)
+
+# 3. Output Configuration
+OUT_DIR = packages
+DIST    = $(OUT_DIR)/dist
+TARGET  = $(OUT_DIR)/test_runner
+LIB     = $(DIST)/lib/libcamelot.a
+
+# --- RULES ---
+
+.PHONY: all clean test package dirs
+
+all: package
+
+dirs:
+	@mkdir -p $(OUT_DIR)
+	@mkdir -p $(DIST)/lib
+	@mkdir -p $(DIST)/include
+
+# --- TEST SUITE ---
+test: dirs
+	@echo " [CC]   Compiling Test Suite..."
+	@$(CC) $(CFLAGS) tests/main.c $(SRCS) -o $(TARGET)
+	@echo " [EXEC] Running Tests..."
+	@echo "--------------------------------------------------"
+	@./$(TARGET)
+
+# --- PACKAGE GENERATION ---
+
+%.o: %.c
+	@echo " [CC]   $<"
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(LIB): dirs $(OBJS)
+	@echo " [AR]   Creating Static Library..."
+	@$(AR) rcs $(LIB) $(OBJS)
+	@rm -f $(OBJS)
+
+package: $(LIB)
+	@echo " [CP]   Copying Headers..."
+	@cp -r include/* $(DIST)/include/
+	
+	@echo " [GEN]  Generating Installers..."
+	
+	# 1. Linux/macOS Installer (Shell Script)
+	@echo "#!/bin/bash" > $(DIST)/install.sh
+	@echo "if [ \"\$$EUID\" -ne 0 ]; then echo 'Please run as root'; exit; fi" >> $(DIST)/install.sh
+	@echo "echo '[*] Installing Camelot...'" >> $(DIST)/install.sh
+	@echo "cp -r include/camelot /usr/local/include/" >> $(DIST)/install.sh
+	@echo "cp lib/libcamelot.a /usr/local/lib/" >> $(DIST)/install.sh
+	@echo "echo '[V] Camelot Installed! Link with: -lcamelot'" >> $(DIST)/install.sh
+	@chmod +x $(DIST)/install.sh
+	
+	# 2. Windows Installer (Batch Script with Auto-Path)
+	@echo "@echo off" > $(DIST)/install.bat
+	@echo "echo [*] Installing Camelot to C:\\Camelot..." >> $(DIST)/install.bat
+	
+	@echo "if not exist \"C:\\Camelot\" mkdir \"C:\\Camelot\"" >> $(DIST)/install.bat
+	@echo "xcopy /E /Y include \"C:\\Camelot\\include\\\" >NUL" >> $(DIST)/install.bat
+	@echo "xcopy /E /Y lib \"C:\\Camelot\\lib\\\" >NUL" >> $(DIST)/install.bat
+	
+	@echo "echo [*] Registering Environment Variables..." >> $(DIST)/install.bat
+	@echo "setx C_INCLUDE_PATH \"C:\\Camelot\\include\" >NUL" >> $(DIST)/install.bat
+	@echo "setx LIBRARY_PATH \"C:\\Camelot\\lib\" >NUL" >> $(DIST)/install.bat
+	
+	@echo "echo [V] Installation Complete!" >> $(DIST)/install.bat
+	@echo "echo [!] NOTE: You must restart your terminal for changes to take effect." >> $(DIST)/install.bat
+	@echo "pause" >> $(DIST)/install.bat
+
+	@echo " [DONE] Package ready at: $(DIST)/"
+
+clean:
+	@echo " [RM]   Cleaning artifacts..."
+	@rm -rf $(OUT_DIR)
+	@rm -f src/*/*.o

@@ -36,6 +36,13 @@ Camelot/
 ├── README.md                   # Documentation & Manifesto
 ├── Makefile                    # Build Automation
 │
+├── packages/                   # 🎁 BUILD ARTIFACTS (Ignored by Git)
+│   ├── test_runner             # Executable Test Suite
+│   └── dist/                   # The Installable Package
+│       ├── install.sh          # Auto-generated Installer
+│       ├── lib/                # libcamelot.a
+│       └── include/            # Header files
+│
 ├── include/                    # 📢 PUBLIC INTERFACE
 │   └── camelot/                # Namespace
 │       ├── camelot.h           # The Facade (Single include point)
@@ -73,8 +80,8 @@ Camelot/
     ├── test_types.c            # Tests for Strings & Primitives
     ├── test_memory.c           # Tests for Arena & Scopes
     ├── test_ds.c               # Tests for Arrays & Tables
-    └── test_io.c               # Tests for Files
-
+    ├── test_io.c               # Tests for Visual Output
+    └── test_files.c            # Tests for File System
 ```
 
 ---

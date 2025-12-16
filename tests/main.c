@@ -4,6 +4,7 @@
 #include "test_memory.c"
 #include "test_types.c"
 #include "test_io.c"
+#include "test_files.c" // <--- Added this
 
 int main() {
       printf("--- CAMELOT TEST SUITE ---\n");
@@ -14,10 +15,15 @@ int main() {
       RUN(test_string_construction);
       RUN(test_stringify_macro);
 
-      // 2. Run Visual Tests (IO)
+      // 2. Run File System Tests
+      RUN(test_slurp_basic);
+      RUN(test_stream_dispatch);
+      RUN(test_missing_file);
+
+      // 3. Run Visual Tests (IO)
       RUN(test_io_visual);
 
-      // 3. Report
+      // 4. Report
       printf("--------------------------\n");
       printf("Tests Run:    %d\n", tests_run);
       printf("Tests Failed: %d\n", tests_failed);
