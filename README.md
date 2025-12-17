@@ -96,6 +96,6 @@ Detailed architecture, API references, and design principles are available on ou
 ## 📄 License
 **MIT** — Use, fork, learn, experiment. See `LICENSE` for details.
 
-## 🎨 Credits**Author:** Acrilic
-
+## 🎨 Credits
+**Author:** Acrilic
 **Logo:** [Solarus](https://www.flaticon.com/free-icon/cube_17533083)
