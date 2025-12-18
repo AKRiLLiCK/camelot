@@ -4,7 +4,8 @@
 #include "test_memory.c"
 #include "test_types.c"
 #include "test_io.c"
-#include "test_files.c" // <--- Added this
+#include "test_files.c"
+#include "test_ds.c"
 
 int main() {
       printf("--- CAMELOT TEST SUITE ---\n");
@@ -13,6 +14,8 @@ int main() {
       RUN(test_alignment);
       RUN(test_oom);
       RUN(test_string_construction);
+      RUN(test_paged_list);
+      RUN(test_hash_table);
 
       // 2. Run File System Tests
       RUN(test_slurp_basic);

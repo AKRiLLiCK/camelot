@@ -36,57 +36,54 @@ Camelot/
 ├── README.md                   # Documentation & Manifesto
 ├── Makefile                    # Build Automation
 │
-├── packages/                   # 🎁 BUILD ARTIFACTS (Ignored by Git)
-│   ├── test_runner             # Executable Test Suite
-│   └── dist/                   # The Installable Package
-│       ├── install.sh          # Auto-generated Installer
-│       ├── lib/                # libcamelot.a
-│       └── include/            # Header files
+├── packages/                   # 🎁 BUILD ARTIFACTS
+│   ├── test_runner             # Compiled Test Suite
+│   └── dist/                   # Production-ready package
 │
 ├── include/                    # 📢 PUBLIC INTERFACE
-│   └── camelot/                # Namespace
-│       ├── camelot.h           # The Facade (Single include point)
-│       ├── memory.h            # Arena, Allocators, & RAII Scopes
-│       ├── io.h                # File System & I/O
-│       │
-│       ├── types/              # 🧱 TYPES MODULE
-│       │   ├── primitives.h    # u8, i32, f64, bool, Error codes
-│       │   └── string.h        # Str type & operations
-│       │
-│       └── ds/                 # 📦 DATA STRUCTURES MODULE
-│           ├── array.h         # Dynamic Array definitions
-│           └── table.h         # Hash Map definitions
+│   ├── camelot/                # Core Framework
+│   │   ├── camelot.h           # The Facade (Single include point)
+│   │   ├── memory.h            # Arena Allocator & Scopes
+│   │   └── io.h                # I/O Namespace & File System
+│   │
+│   ├── types/                  # 🧱 TYPE DEFINITIONS
+│   │   ├── primitives.h        # Rust-style u8, i32, f64, bool
+│   │   └── string.h            # 'String' struct & namespace
+│   │
+│   └── ds/                     # 📦 DATA STRUCTURES
+│       ├── list.h              # Paged List (O(1) access & growth)
+│       └── table.h             # Hash Table (Linear Probing)
 │
 ├── src/                        # ⚙️ INTERNAL ENGINE
-│   ├── internal.h              # Private shared helpers
+│   ├── io/
+│   │   ├── fs.c                # File Stream Logic (Pipes/Sockets)
+│   │   └── io.c                # Console Output Formatting
 │   │
 │   ├── memory/
-│   │   ├── arena.c             # The Linear Allocator logic
-│   │   └── scope.c             # Auto-cleanup logic
+│   │   └── memory.c            # Linear Memory Management
 │   │
 │   ├── types/
-│   │   └── string.c            # String implementation
+│   │   └── string.c            # String Implementation
 │   │
-│   ├── ds/
-│   │   ├── array.c             # Array implementation
-│   │   └── table.c             # Hash Map implementation
-│   │
-│   └── io/
-│       └── fs.c                # File System implementation
+│   └── ds/
+│       ├── list.c              # Paged List Logic
+│       └── table.c             # Hash Table Logic
 │
 └── tests/                      # 🛡️ QUALITY CONTROL
-    ├── tests.h                 # The Header-Only Test Harness
+    ├── tests.h                 # Header-Only Test Harness
     ├── main.c                  # Test Runner Entry Point
-    ├── test_types.c            # Tests for Strings & Primitives
-    ├── test_memory.c           # Tests for Arena & Scopes
-    ├── test_ds.c               # Tests for Arrays & Tables
-    ├── test_io.c               # Tests for Visual Output
-    └── test_files.c            # Tests for File System
+    ├── test_types.c            # Verifies String construction
+    ├── test_memory.c           # Verifies Arena alignment & OOM
+    ├── test_io.c               # Visual checks for Output
+    ├── test_files.c            # Verifies Slurp/Stream logic
+    └── test_ds.c               # Verifies Lists & Hash Tables
+
 ```
 
 ---
 
 ## 📚 Documentation
+
 Detailed architecture, API references, and design principles are available on our official documentation site:
 
 👉 **[Read the Camelot Docs](https://camelot-1.gitbook.io/docs/)**
@@ -94,8 +91,10 @@ Detailed architecture, API references, and design principles are available on ou
 ---
 
 ## 📄 License
+
 **MIT** — Use, fork, learn, experiment. See `LICENSE` for details.
 
 ## 🎨 Credits
+
 **Author:** Acrilic
 **Logo:** [Solarus](https://www.flaticon.com/free-icon/cube_17533083)
