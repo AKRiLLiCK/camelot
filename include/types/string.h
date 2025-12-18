@@ -3,17 +3,28 @@
 
 #include "primitives.h"
 
+// --- TYPES ---
+
 typedef struct {
       u8 *ptr;
       u64 len;
 } String;
 
-// --- FUNCTIONS ---
+// --- NAMESPACE ---
 
-// Wraps a null-terminated C-string into a Camelot String.
-String stringify(const char* str);
+typedef struct {
+      // Wraps a null-terminated C-string into a Camelot String.
+      //
+      // Usage: 
+      // ```
+      // String s = string.from("Hello");
+      // ```
+      String (*from)(const char *c_str);
 
-// Checks if two strings are identical in content and length.
-bool str_eq(String a, String b);
+      // Checks if two strings are identical in content and length.
+      bool (*equal)(String a, String b);
+} StringNamespace;
+
+extern const StringNamespace string;
 
 #endif
