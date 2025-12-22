@@ -18,7 +18,10 @@ typedef struct {
       String (*from)(const char *c_str);
 
       // Concatenates two strings into a new one allocated on the Arena.
-      // Usage: String s = string.join(&arena, s1, s2);
+      // Usage:
+      // ```
+      // String s = string.join(&arena, s1, s2);
+      // ```
       String (*join)(Arena *a, String s1, String s2);
 
       // Checks if two strings are identical.
