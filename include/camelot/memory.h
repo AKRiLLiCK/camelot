@@ -47,7 +47,4 @@ typedef struct {
 
 extern const ArenaNamespace arena;
 
-// Backwards compatibility / Shortcut if you prefer global access
-// void *allocate(Arena *a, u64 size); 
-
 #endif

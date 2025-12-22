@@ -19,7 +19,9 @@ typedef struct {
 typedef struct {
       // Creates a new Paged List
       // Usage:
+      // ```
       // List foo = list.create(&arena, sizeof(int));
+      // ```
       List (*create)(Arena *a, u64 item_size);
 
       // Pushes an item to the end. O(1).
