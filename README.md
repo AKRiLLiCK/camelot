@@ -1,100 +1,85 @@
 <div align="center">
 
-<img src="logo.png" alt="Camelot Logo" width="200"/>
+<img src="logo.svg" alt="Camelot Logo" width="180"/>
 
 # Camelot
-**Re-Imagining C for modern engineering.**
-A framework enforcing safety, ergonomics, and structural integrity for the C language.
+**The Senior Engineer's C Framework.**
+A modern standard library replacement for C23 enforcing safety, ergonomics, and architectural integrity.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Standard: C23](https://img.shields.io/badge/standard-C23-purple.svg)](https://en.wikipedia.org/wiki/C23_(C_standard_revision))
 [![Documentation: GitBook](https://img.shields.io/badge/docs-GitBook-blue.svg)](https://camelot-1.gitbook.io/docs/)
 
-[**Philosophy**](#-philosophy) • [**Documentation**](#-documentation)
+[**Philosophy**](#-philosophy) • [**Quick Start**](#-quick-start) • [**Documentation**](https://camelot-1.gitbook.io/docs/)
 
 </div>
 
------
+---
 
 ## 📘 Philosophy
 
-C is often dismissed as "legacy"—destined to be replaced. **This view ignores reality.**
+**"C is legacy."** We reject this statement.
 
-The world's critical infrastructure is built on C. Experienced engineers don't hate C; they love it for its honesty. **Camelot** brings the "Senior Engineer" workflow to the forefront, stripping away the friction of the 1989 standard library to reveal the high-performance language underneath.
+C runs the world. The problem isn't the language; it is the **Standard Library**. `libc` is stuck in 1989—unsafe string handling, manual memory management hell, and inconsistent I/O.
 
-We believe in a transparent relationship between the engineer and the machine: strict control, zero hidden costs, and architectural clarity.
+**Camelot** bridges the gap. We bring modern concepts—Linear Allocators (Arenas), RAII Scopes, Slice-based Strings, and Generic Collections—into the raw power of C. We believe in:
 
------
+1.  **Workspaces, not Malloc:** Memory is managed in scopes, not individual pointers.
+2.  **Views, not Copies:** Data is immutable and shared by default.
+3.  **Transparency:** No hidden allocations. No magic.
 
-## 📂 Project Structure
+---
 
-A clean, modular architecture designed for portability and logical separation of concerns.
+## ⚔️ The Manifesto
 
-```text
-Camelot/
-├── LICENSE                     # MIT License
-├── README.md                   # Documentation & Manifesto
-├── Makefile                    # Build Automation
-│
-├── packages/                   # 🎁 BUILD ARTIFACTS
-│   ├── test_runner             # Compiled Test Suite
-│   └── dist/                   # Production-ready package
-│
-├── include/                    # 📢 PUBLIC INTERFACE
-│   ├── camelot.h               # The Facade (Single include point)
-│   │
-│   ├── camelot/                # Core Framework
-│   │   ├── memory.h            # Arena Allocator & Scopes
-│   │   └── io.h                # I/O Namespace & File System
-│   │
-│   ├── types/                  # 🧱 TYPE DEFINITIONS
-│   │   ├── primitives.h        # Rust-style u8, i32, f64, bool
-│   │   └── string.h            # 'String' struct & namespace
-│   │
-│   └── ds/                     # 📦 DATA STRUCTURES
-│       ├── list.h              # Paged List (O(1) access & growth)
-│       └── table.h             # Hash Table (Linear Probing)
-│
-├── src/                        # ⚙️ INTERNAL ENGINE
-│   ├── io/
-│   │   ├── fs.c                # File Stream Logic (Pipes/Sockets)
-│   │   └── io.c                # Console Output Formatting
-│   │
-│   ├── memory/
-│   │   └── memory.c            # Linear Memory Management
-│   │
-│   ├── types/
-│   │   └── string.c            # String Implementation
-│   │
-│   └── ds/
-│       ├── list.c              # Paged List Logic
-│       └── table.c             # Hash Table Logic
-│
-└── tests/                      # 🛡️ QUALITY CONTROL
-    ├── tests.h                 # Header-Only Test Harness
-    ├── main.c                  # Test Runner Entry Point
-    ├── test_types.c            # Verifies String construction
-    ├── test_memory.c           # Verifies Arena alignment & OOM
-    ├── test_io.c               # Visual checks for Output
-    ├── test_files.c            # Verifies Slurp/Stream logic
-    └── test_ds.c               # Verifies Lists & Hash Tables
-```
+**"Why use C in the 2020s?"**
+
+It is the industry's favorite question. The answer is not nostalgia; it is architectural necessity. C remains the foundational substrate of our digital infrastructure and the universal protocol through which all other languages must communicate.
+
+We have compiled a comprehensive technical defense of C, dismantling the "Legacy" myth with architectural proofs and industry data.
+
+👉 **[Read the Full Manifesto](https://camelot-1.gitbook.io/docs/manifesto)**
 
 ---
 
 ## 📚 Documentation
 
-Detailed architecture, API references, and design principles are available on our official documentation site:
+Detailed API references, architecture deep-dives, and performance characteristics are available on our official documentation site:
 
 👉 **[Read the Camelot Docs](https://camelot-1.gitbook.io/docs/)**
+
+### Core Features
+
+* **🧠 Smart Memory:** Linear Allocators (Arenas) with `scoped` cleanup attributes. Eliminate leaks and fragmentation.
+* **🧱 Strings:** Fat Pointers (`ptr` + `len`) that make buffer overflows mathematically impossible.
+* **📡 I/O:** Type-safe printing and buffer-proof scanning (`io.scan`) that handles pipes and files uniformly.
+* **📦 Collections:** Zero-copy Paged Lists and Linear-Probing Hash Tables.
+
+---
+
+## 📂 Project Structure
+
+```text
+Camelot/
+├── include/       # 📢 Public Interface (What you #include)
+├── src/           # ⚙️ Internal Engine (Implementation)
+├── tests/         # 🛡️ Unit Test Suite
+├── packages/      # 🎁 Build Artifacts (Distributables)
+└── Makefile       #    Build Automation
+```
+
+---
+
+## 🗺️ Roadmap
+
+The kernel is complete. Phase 3 focuses on high-level systems:
+
+* [ ] **Serialization:** Zero-allocation JSON parser (AST on Arena).
+* [ ] **Concurrency:** `Thread` and `Channel` primitives (Go-style).
+* [ ] **Networking:** `net` namespace for TCP/UDP servers.
 
 ---
 
 ## 📄 License
 
-**MIT** — Use, fork, learn, experiment. See `LICENSE` for details.
-
-## 🎨 Credits
-
-**Author:** Acrilic
-**Logo:** [Solarus](https://www.flaticon.com/free-icon/cube_17533083)
+**MIT**. Build something great.
