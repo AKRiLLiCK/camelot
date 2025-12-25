@@ -13,6 +13,7 @@ int main() {
       // 1. Run Logic Tests (Memory & Types)
       RUN(test_alignment);
       RUN(test_oom);
+      RUN(test_scoped_macro);
       RUN(test_string_construction);
       RUN(test_paged_list);
       RUN(test_hash_table);
@@ -22,7 +23,9 @@ int main() {
       RUN(test_stream_dispatch);
       RUN(test_missing_file);
 
-      // 3. Run Visual Tests (IO)
+      // 3. IO & Scanning Tests
+      RUN(test_scan_basic);
+      RUN(test_scan_limited);
       RUN(test_io_visual);
 
       // 4. Report

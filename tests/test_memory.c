@@ -30,3 +30,18 @@ TEST(test_oom) {
 
       arena.release(&a);
 }
+
+TEST(test_scoped_macro) {
+      // Verifies that the 'scoped' syntax compiles and runs.
+      // If the cleanup logic was broken, this might segfault on scope exit.
+      {
+            scoped Arena a = arena.create(256);
+            REQUIRE(a.cap == 256);
+            
+            void *p = arena.alloc(&a, 10);
+            REQUIRE(p != NULL);
+            // 'a' is automatically released here.
+      }
+      
+      // If we survived the block exit, the destructor logic is safe.
+}
