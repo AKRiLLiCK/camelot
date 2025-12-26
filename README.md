@@ -10,7 +10,7 @@ A modern standard library replacement for C23 enforcing safety, ergonomics, and 
 [![Standard: C23](https://img.shields.io/badge/standard-C23-purple.svg)](https://en.wikipedia.org/wiki/C23_(C_standard_revision))
 [![Documentation: GitBook](https://img.shields.io/badge/docs-GitBook-blue.svg)](https://camelot-1.gitbook.io/docs/)
 
-[**Quick Start**](https://camelot-1.gitbook.io/docs/start-here/quick-start) • [**Documentation**](https://camelot-1.gitbook.io/docs/) • [**Contribute**](CONTRIBUTING.md)
+[**Quick Start**](https://camelot-1.gitbook.io/docs/start-here/quick-start) • [**Documentation**](https://camelot-1.gitbook.io/docs/documentation/) • [**Contribute**](CONTRIBUTING.md)
 
 </div>
 
@@ -55,4 +55,5 @@ Camelot/
 ├── tests/         # 🛡️ Unit Test Suite
 ├── packages/      # 🎁 Build Artifacts
 └── Makefile       #    Build Automation
+
 ```
