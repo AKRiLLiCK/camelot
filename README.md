@@ -10,7 +10,7 @@ A modern standard library replacement for C23 enforcing safety, ergonomics, and 
 [![Standard: C23](https://img.shields.io/badge/standard-C23-purple.svg)](https://en.wikipedia.org/wiki/C23_(C_standard_revision))
 [![Documentation: GitBook](https://img.shields.io/badge/docs-GitBook-blue.svg)](https://camelot-1.gitbook.io/docs/)
 
-[**Quick Start**](https://camelot-1.gitbook.io/docs/start-here/quick-start) • [**Documentation**](https://camelot-1.gitbook.io/docs/documentation/) • [**Contribute**](CONTRIBUTING.md)
+[**Quick Start**](https://camelot-1.gitbook.io/docs/start-here/quick-start) • [**Documentation**](https://camelot-1.gitbook.io/docs/) • [**Contribute**](CONTRIBUTING.md)
 
 </div>
 
@@ -18,7 +18,7 @@ A modern standard library replacement for C23 enforcing safety, ergonomics, and 
 
 ## 📘 Mission
 
-**"C is legacy".** We reject this statement.
+**"C is legacy."** We reject this statement.
 
 The problem isn't the language; it is the **Standard Library**. Camelot bridges the gap by bringing modern systems engineering concepts into the raw power of C:
 
@@ -55,5 +55,12 @@ Camelot/
 ├── tests/         # 🛡️ Unit Test Suite
 ├── packages/      # 🎁 Build Artifacts
 └── Makefile       #    Build Automation
-
 ```
+
+---
+
+## 📄 License & Contribution
+
+**Camelot** is open-source software licensed under the **MIT License**.
+
+Contributions are welcome but strictly regulated. All submissions must adhere to **[The Architectural Rigor Standard (ARS-1.0)](CONTRIBUTING.md)** regarding code quality, memory sovereignty, and documentation.
