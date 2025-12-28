@@ -121,4 +121,4 @@ The keywords **SHALL**, **SHOULD**, and **MAY** in this document are to be inter
 * **9.2.1** Unauthorized non-conformance detected post-merge triggers a Non-Conformance Report (NCR), requiring immediate containment and Corrective Action.
 
 ---
-*Reference: IEEE Std ARS-1.0. Released into the Public Domain.*
+*Reference: ARS-1.0. Released into the Public Domain.*
