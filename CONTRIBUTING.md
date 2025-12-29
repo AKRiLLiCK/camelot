@@ -1,124 +1,190 @@
-# ARS-1.0: Architectural Rigor Standard
-**Compliance Profile: Normative**
+# Architectural Requirements Standard (ARS-1.0)
 
-### ABSTRACT
-The Architectural Rigor Standard (ARS-1.0) establishes a normative framework for software quality, structural integrity, and architectural governance. It unifies quantitative metrication with safety-critical design patterns derived from ISO/IEC 25010, MISRA, and AUTOSAR. This document serves as the primary compliance contract for all contributions, enforcing deterministic behavior, maintainability, and reliability across diverse computing environments.
+### EXECUTIVE SUMMARY: TECHNICAL MANDATE
+The Architectural Requirements Standard (ARS-1.0) serves as the primary technical mandate for the organization’s software engineering operations. It decouples "design intent" from implementation details, establishing a normative baseline for system structure, quality, and lifecycle management.
 
----
+This standard operates on the principle that architectural integrity is a quantifiable engineering attribute, not a subjective quality. It establishes **Clauses 6 and 7** as the core technical specifications (modularity, complexity, coverage, debt) and **Clauses 4 and 5** as the engineering enforcement machinery (Technical Authorities, Change Control Boards).
 
-### 1. SCOPE
-**1.1 Applicability**
-This standard governs the architectural structure, coding metrics, configuration schemas, and development workflows of compliant software systems. It applies to all source code, configuration artifacts, and documentation submitted to this repository.
-
-**1.2 Exclusions**
-This standard strictly excludes hardware-specific timing constraints, physical layer protocols, and external hardware interfaces that lie outside the software abstraction layer.
+Compliance with this standard is mandatory. It replaces ad-hoc decision-making with a controlled technical process governed by distinct roles, explicit decision gates, and automated verification. This document aligns with **ISO/IEC 25010** (Quality Models) and **ISO/IEC/IEEE 42010** (Architecture Description) to provide a rigorous, language-agnostic framework for managing technical debt and system complexity.
 
 ---
 
-### 2. NORMATIVE REFERENCES
-The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document.
-* **ISO/IEC Directives, Part 2:** Principles and rules for the structure and drafting of ISO and IEC documents.
+### 1. SCOPE AND APPLICABILITY
+
+#### 1.1 Purpose and General Applicability
+The primary purpose of the ARS is to establish a unified, mandatory framework for the specification, design, implementation, and verification of software systems. This standard governs the structure and lifecycle of software artifacts, strictly defining the boundaries within which software architects and engineers must operate.
+
+The requirements specified herein are universally applicable to all software developed, acquired, or maintained by the organization. This standard ensures systems are:
+* **Structurally Sound:** Possessing a modular topology that limits complexity.
+* **Verifiable:** Capable of objective assessment against quantified metrics.
+* **Sustainable:** Managed to minimize technical debt through formal deviation processes.
+
+#### 1.2 Hierarchy of Authority
+This standard occupies the highest tier of technical governance. It supersedes all project-specific guidelines or team-level working agreements. Where conflicts exist between this standard and a specific tool configuration, this standard takes precedence unless a formal Waiver is granted by the Technical Authority.
+
+#### 1.3 Classification of Software Systems
+Mandates are applied based on the criticality of the software asset:
+
+**1.3.1 Class A: Critical Systems**
+* **Definition:** Systems where failure could result in significant financial loss, regulatory breach, or safety hazards.
+* **Scope:** Full adherence to all mandates is required. No deviations are permitted without Executive sign-off.
+
+**1.3.2 Class B: Core Systems**
+* **Definition:** Business-essential systems where failure impacts operations but is recoverable.
+* **Scope:** Full adherence is required. Waivers are permitted subject to Technical Authority approval.
+
+**1.3.3 Class C: Support Systems**
+* **Definition:** Internal tools, prototypes, or non-production scripts.
+* **Scope:** Adherence to Structural Mandates (Clause 6) is required. Governance procedures are streamlined.
+
+#### 1.4 Exclusions
+* **Stylistic Conventions:** Delegated to language-specific linters.
+* **Algorithm Selection:** Complexity limits apply, but specific algorithm choices are out of scope.
+* **UX/Visual Design:** Visuals are excluded; separation of UI logic is mandated (Clause 6).
+
+---
+
+### 2. NORMATIVE REFERENCES AND COMPLIANCE
+
+#### 2.1 Foundation in International Standards
+This standard aligns with the following engineering directives:
+* **ISO/IEC Directives, Part 2:** Rules for the structure of normative documents.
 * **ISO/IEC 25010:** Systems and software Quality Requirements and Evaluation (SQuaRE).
-* **RFC 2119:** Key words for use in RFCs to Indicate Requirement Levels.
+* **ISO 9001:2015:** Quality management systems (Software Engineering context).
+* **ISO/IEC/IEEE 42010:** Systems and software engineering — Architecture description.
+
+#### 2.2 The Compliance Model
+Compliance is the satisfaction of all technical requirements in **Clauses 6 and 7**. Governance clauses (4, 5, 8) exist to ensure these technical requirements are defined, checked, and not silently violated.
+
+**2.2.1 Types of Conformance**
+1.  **Strict Conformance:** Implementation satisfies all mandatory ("shall") requirements.
+2.  **Managed Conformance:** Specific non-conformances are managed through approved Waivers.
+3.  **Non-Conformant:** Implementation fails requirements without authorization.
+
+**2.2.2 Automated Verification Mandate**
+Compliance verification shall be automated. **Static Analysis**, **Architecture Linters**, and **Coverage Tools** are the primary mechanisms of enforcement. If a requirement cannot be verified by a tool, it must be verified by a formal Process Audit.
 
 ---
 
-### 3. TERMS AND DEFINITIONS
-For the purposes of this document, the following terms and definitions apply:
-* **3.1 Cyclomatic Complexity (CC):** The number of linearly independent paths through a program's source code, calculated as M = E - N + 2P or operationally as D + 1 (where D is the count of decision points).
-* **3.2 Cognitive Complexity:** A measure of the mental effort required to understand code flow (as defined by SonarQube-compatible algorithms), penalizing nesting and structural discontinuities more heavily than linear logic.
-* **3.3 Logical SLOC:** Source Lines of Code excluding whitespace and comments.
+### 3. TERMS, DEFINITIONS, AND DESCRIPTORS
+
+#### 3.1 Governance and Role Descriptors
+* **Technical Authority (TA):** The engineer holding ultimate responsibility for technical integrity. Distinct from Program Management.
+* **Change Control Board (CCB):** The engineering body responsible for reviewing architectural changes.
+* **Design Authority:** The entity responsible for detailed design.
+
+#### 3.2 Procedural Descriptors
+* **Deviation:** Planned authorization to depart from a requirement *prior* to development.
+* **Waiver:** Reactive authorization to accept a non-conformance *after* detection.
+* **Non-Conformance:** Violation of a "shall" statement.
+* **Conformance Claim:** A formal declaration backed by automated evidence.
+
+#### 3.3 Structural and Metric Descriptors
+* **Module:** A deployable unit exposing functionality solely through a Public Interface.
+* **Cyclomatic Complexity (CC):** Quantitative measure of linearly independent paths.
+* **Technical Debt:** The remediation cost of open Non-Conformances.
 
 ---
 
-### 4. CONFORMANCE
-**4.1 Conformance Targets**
-* **Source Code:** The software implementation must meet the metric thresholds defined in Clause 5.
-* **Process:** The development workflow must adhere to the Deviation procedures defined in Clause 9.
+### 4. TECHNICAL GOVERNANCE AND ROLES
 
-**4.2 Conformance Levels**
-Implementation shall declare compliance to one of the following levels:
-* **Level 1 (Basic):** Documentation structure, Schema validation, Basic Readability.
-* **Level 2 (Strict):** Metric enforcement (CC/SLOC), Type safety, ISO 25010 Maintainability.
-* **Level 3 (Critical):** Safety-critical assurance, Dynamic memory prohibition, Formal waiver tracking.
+#### 4.1 The Technical Authority (TA) Mandate
+The organization shall appoint a Technical Authority (TA) for every Class A and Class B system.
+* **Independence:** The TA reports to Engineering/Quality, ensuring architectural integrity is not compromised by schedule.
+* **Powers:** Sole signatory for Technical Waivers and Deviations. Responsible for enforcing Standards and defining Architecture.
 
-**4.3 Terminology**
-The keywords **SHALL**, **SHOULD**, and **MAY** in this document are to be interpreted as described in ISO/IEC Directives Part 2 and RFC 2119.
+#### 4.2 The Change Control Board (CCB) Mandate
+For Class A and B systems, a CCB governs architectural evolution.
+* **Technical Gate:** No changes to Public Interfaces or Layering are permitted without CCB approval.
+* **Membership:** Chaired by the TA; includes Development, QA, and Ops engineering leads.
 
 ---
 
-### 5. QUANTITATIVE METRICS
-**5.1 Cyclomatic Complexity (CC)**
-* **5.1.1** Functions **SHALL** maintain a CC score <= 10 (Low Risk).
-* **5.1.2** Functions with a CC score between 11-20 **SHOULD** be refactored and require explicit justification in the Pull Request.
-* **5.1.3** Functions with a CC score > 20 are **NON-CONFORMANT** and **SHALL** be rejected without a formal waiver.
+### 5. ARCHITECTURAL LIFECYCLE PROCESSES
 
-**5.2 Cognitive Complexity**
-* **5.2.1** Cognitive Complexity **SHALL** be used as a discriminator for Moderate Risk CC scores.
-* **5.2.2** Functions **SHOULD NOT** exceed a Cognitive Complexity score of 15. Scores > 15 constitute a priority refactoring target.
+#### 5.1 Architecture Definition
+* **Mandate:** Before coding Class A/B systems, an **Architecture Definition Document (ADD)** must be approved by the TA.
+* **Content:** Must map requirements to Modules, define Layering, and verify DAG consistency.
 
-**5.3 Module Size (SLOC)**
-* **5.3.1** A single module/file **SHOULD NOT** exceed 500 Logical SLOC.
-* **5.3.2** A single function **SHOULD NOT** exceed 50 Logical SLOC.
+#### 5.2 Non-Conformance Reporting (NCR)
+* **Trigger:** Automated tool failure (e.g., CI build failure due to complexity).
+* **Workflow:** Containment (Block Merge) -> Report -> Fix/Waive -> Close.
 
----
-
-### 6. LANGUAGE-SPECIFIC IMPLEMENTATION
-**6.1 C++ (Safety & Documentation)**
-* **6.1.1** Documentation **SHALL** utilize Doxygen syntax (Javadoc style /** ... */ or Triple-slash ///) with mandatory @brief, @param, and @return tags.
-* **6.1.2** Raw pointers (T*) **SHALL NOT** own memory. Ownership **SHALL** be encapsulated in std::unique_ptr or std::shared_ptr.
-* **6.1.3** std::auto_ptr is **PROHIBITED**.
-
-**6.2 Rust (Managed Unsafety)**
-* **6.2.1** unsafe blocks **SHALL** be minimized and explicitly documented with a /// # Safety section.
-* **6.2.2** Aliasing (multiple mutable references) is **PROHIBITED** even within unsafe blocks.
-* **6.2.3** Documentation **SHALL** include # Examples sections containing executable doctests.
-
-**6.3 Python (Clarity)**
-* **6.3.1** Docstrings **SHALL** follow the Google Style format.
-* **6.3.2** Resource management (files, sockets) **SHALL** utilize Context Managers (with statements). Explicit open()/close() pairs are **PROHIBITED**.
-
-**6.4 Go (Deterministic Cleanup)**
-* **6.4.1** The defer keyword **SHALL** be used immediately upon resource acquisition.
-* **6.4.2** defer **SHALL NOT** be used inside tight loops due to stack accumulation risks.
-
-**6.5 JavaScript/TypeScript (Type Safety)**
-* **6.5.1** All functions **SHALL** utilize JSDoc annotations (@param {Type}) or TypeScript interfaces to enforce strict typing boundaries.
-* **6.5.2** Asynchronous operations **SHALL** utilize async/await syntax; "callback hell" patterns are **PROHIBITED**.
+#### 5.3 Deviation and Waiver Process
+* **Deviation (Planned):** Approved by TA. Limited scope/time.
+* **Waiver (Reactive):** Approved by TA + CCB. High risk acceptance.
+* **Review:** All Waivers must be re-validated annually.
 
 ---
 
-### 7. SAFETY-CRITICAL MEMORY MANAGEMENT
-*Applicable to Level 3 Conformance.*
+### 6. STRUCTURAL MANDATES (TECHNICAL REQUIREMENTS)
 
-**7.1 Dynamic Allocation Prohibition**
-* **7.1.1** The use of dynamic heap allocation (malloc, free, new, delete) during the cyclic execution phase is **STRICTLY PROHIBITED**.
+#### 6.1 Modularity and Encapsulation
+* **6.1.1 The Module Mandate:** Systems shall be decomposed into discrete Modules with strictly Private Implementations.
+    * *Verification:* Architecture Linters / Access Modifier checks.
+* **6.1.2 Cyclomatic Complexity (CC):** No single function/method shall have a CC > **10**.
+    * *Exception:* Switch-case dispatchers (CC <= 20) allowed.
+    * *Verification:* Static Analysis (e.g., SonarQube, Radon).
 
-**7.2 Controlled Relaxation**
-* **7.2.1** For Level 2 systems, dynamic allocation is **PERMITTED** only during the initialization phase.
-* **7.2.2** Runtime allocation **SHALL** utilize fixed-size Pool Allocators with O(1) deterministic time complexity to eliminate fragmentation.
+#### 6.2 Layering and Dependency Management
+* **6.2.1 Strict Layering:** Dependencies shall flow downwards/inwards. Lower layers shall not depend on higher layers.
+* **6.2.2 Circular Dependencies:** The dependency graph shall be a Directed Acyclic Graph (DAG). Cycles are **strictly prohibited**.
+    * *Verification:* Dependency Analysis Tools (e.g., JDepend, cargo-dep).
 
----
-
-### 8. CONFIGURATION AND TRACEABILITY
-**8.1 Schema Validation**
-* **8.1.1** All configuration artifacts (JSON, YAML, XML) **SHALL** be governed by a formal schema (e.g., JSON Schema).
-* **8.1.2** Applications **SHALL** validate configuration against the schema at startup; validation failure **SHALL** inhibit system startup.
-
-**8.2 Traceability**
-* **8.2.1** Magic numbers and hardcoded literals are **PROHIBITED**.
-* **8.2.2** Critical parameters **SHALL** be traceable to specific System Requirement IDs or Configuration Keys.
+#### 6.3 Public Interface Standardization
+* **6.3.1 Interface Stability:** Public Interfaces must be versioned. Breaking changes require Major Version increments.
+    * *Verification:* Semantic Versioning checks / API Diff tools.
 
 ---
 
-### 9. GOVERNANCE AND DEVIATIONS
-**9.1 Request for Deviation (RFD)**
-* **9.1.1** Deviations from mandatory ("SHALL") requirements **MUST** be authorized via a formal RFD process.
-* **9.1.2** The RFD **SHALL** contain: Clause Number, Rationale, Risk Assessment, and Mitigation Strategy.
-* **9.1.3** Approval **SHALL** be granted by a Project Maintainer or designated Technical Lead prior to merge.
+### 7. QUALITY ASSURANCE AND METRICATION
 
-**9.2 Non-Conformance**
-* **9.2.1** Unauthorized non-conformance detected post-merge triggers a Non-Conformance Report (NCR), requiring immediate containment and Corrective Action.
+#### 7.1 Code Coverage Floors
+Coverage is mandated by Module Criticality.
+
+**7.1.1 Safety Critical Modules**
+* **Metric Required:** MC/DC (Modified Condition/Decision Coverage).
+* **Minimum Threshold:** 100%.
+
+**7.1.2 Business Critical Modules**
+* **Metric Required:** Branch Coverage.
+* **Minimum Threshold:** 90%.
+
+**7.1.3 Standard/Support Modules**
+* **Metric Required:** Statement Coverage.
+* **Minimum Threshold:** 75%.
+
+* *Verification:* Coverage Reports (e.g., Jacoco, Tarpaulin, Coverage.py).
+
+#### 7.2 Technical Debt Management
+* **Mandate:** Technical Debt Ratio (Remediation Cost / Total Cost) shall not exceed **5%**.
+* **Action:** Exceeding this limit triggers a mandatory Refactoring Sprint managed by the CCB.
+* *Verification:* SQALE or equivalent debt estimation plugins.
+
+#### 7.3 Resource Management
+* **Mandate:** Verification infrastructure (CI servers, license servers) is critical. Failure of this infrastructure halts the release process.
+
+---
+
+### 8. NON-CONFORMANCE AND EXCEPTION MANAGEMENT
+
+#### 8.1 Categorization
+* **Critical:** Safety/Security impact. **Action:** Immediate Stop.
+* **Major:** Maintainability impact (e.g., CC > 15). **Action:** Fix or Waiver required.
+* **Minor:** Cosmetic. **Action:** Technical Debt log.
+
+#### 8.2 The Waiver Registry
+All Waivers must be recorded centrally, tracking: Clause Violated, Rationale, Mitigation, and Expiry.
+
+---
+
+### 10. CONFORMANCE FOR TOOLS AND PIPELINES (INFORMATIVE)
+To ensure compliance, CI/CD pipelines SHOULD implement the following gates:
+
+* **Complexity Gate:** Fails build if any function CC > 10 (Clause 6.1.2).
+* **Architecture Gate:** Fails build if circular dependencies are detected (Clause 6.2.2).
+* **Coverage Gate:** Fails build if coverage drops below Class threshold (Clause 7.1).
+* **Debt Gate:** Warns or Fails if Technical Debt Ratio > 5% (Clause 7.2).
 
 ---
 *Reference: ARS-1.0. Released into the Public Domain.*
