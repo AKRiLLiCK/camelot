@@ -54,9 +54,7 @@ String scan(Arena *a, u64 cap) {
 
 // --- PRINT ---
 
-void put(String s) {
-  write(1, s.ptr, s.len);
-}
+void put(String s) { write(1, s.ptr, s.len); }
 
 static void put_i64(long long n) {
   if (n == 0) {
