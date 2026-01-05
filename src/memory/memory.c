@@ -7,11 +7,11 @@
  * Compliance is mandatory for all contributions.
  */
 
-#include "camelot.h"
+#define ALLOW_UNSAFE
+
 #include <stdlib.h>
 #include <string.h>
-
-#define ALLOW_UNSAFE
+#include "camelot.h"
 
 // --- INTERNAL IMPLEMENTATION ---
 

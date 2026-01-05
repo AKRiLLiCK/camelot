@@ -7,11 +7,10 @@
  * Compliance is mandatory for all contributions.
  */
 
-#include "camelot.h"
 #include <stdio.h>
+#include "camelot.h"
 
 // --- EXTERNAL LINKAGE ---
-// These are implemented in src/io/io.c but needed here for the namespace table.
 extern String scan(Arena *a, u64 cap);
 extern void put(String s);
 extern void print(const char *fmt, ...);

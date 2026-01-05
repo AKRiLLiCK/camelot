@@ -9,8 +9,8 @@
  * See: https://camelot-1.gitbook.io/docs/ds/table
  */
 
-#include "camelot.h"
 #include <string.h>
+#include "camelot.h"
 
 // --- CONSTANTS ---
 #define FNV_OFFSET_BASIS 0xcbf29ce484222325

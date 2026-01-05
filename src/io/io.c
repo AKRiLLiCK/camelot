@@ -7,14 +7,15 @@
  * Compliance is mandatory for all contributions.
  */
 
-#include "camelot.h"
-#include <stdarg.h> // va_list, va_start, va_end
-#include <stdio.h>  // snprintf
-#include <unistd.h> // write, read
-
 #ifndef ALLOW_UNSAFE
 #define ALLOW_UNSAFE
 #endif
+
+#include <stdarg.h> // va_list, va_start, va_end
+#include <stdio.h>  // snprintf
+#include <string.h> // strlen
+#include <unistd.h> // write, read
+#include "camelot.h"
 
 #define IO_DEFAULT_SCAN_CAP 4096
 

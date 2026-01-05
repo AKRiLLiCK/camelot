@@ -7,8 +7,8 @@
  * Compliance is mandatory for all contributions.
  */
 
-#include "camelot.h"
 #include <string.h>
+#include "camelot.h"
 
 // --- INTERNAL HELPERS ---
 
