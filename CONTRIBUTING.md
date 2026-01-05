@@ -1,178 +1,187 @@
-# Avant Systems Canon (ASC-1.0)
-
-### EXECUTIVE PRINCIPLE: COGNITIVE DURABILITY
-
-This canon defines the non-negotiable engineering standards governing all software produced under this organization.
-
-Source code is treated as a long-term cognitive asset, not a disposable artifact. The primary objective of this canon is **Cognitive Durability**: the ability for software to be understood, verified, and safely modified by competent engineers who did not author it.
-
-This canon explicitly rejects hero-centric development practices in favor of tiered, verifiable engineering discipline. Compliance is mandatory.
+# Avant Systems Canon (ASC-1.1)
 
 ---
 
-### 1. APPLICABILITY AND COMPLIANCE TIERS
+## EXECUTIVE PRINCIPLE — COGNITIVE DURABILITY
 
-#### 1.1 Lifecycle-Aware Enforcement
+This Canon defines the non-negotiable engineering standards governing all software produced under this organization.
 
-To prevent process paralysis, enforcement is tiered based on the lifecycle stage of the artifact.
+Source code is a long-lived cognitive asset. It is not disposable, not ephemeral, and not owned by its original author. The primary objective of this Canon is **Cognitive Durability**: the ability for systems to be understood, verified, and safely modified by competent engineers who did not write them.
 
-**1.1.1 Tier A — Greenfield (New Code)**
+This Canon explicitly rejects hero-centric development in favor of tiered, verifiable engineering discipline. Compliance is mandatory.
 
+---
+
+## 1. UNIVERSAL APPLICABILITY BY ARCHITECTURAL ROLE
+
+To remain valid across radically different systems—from kernels and allocators to services and applications—this Canon governs by **Architectural Role**, not by hard-coded file paths, directory names, or toolchains.
+
+### 1.1 Role Mapping
+* **Adoption Requirement:** Each repository **MUST** map its source tree to the Canon’s Architectural Roles (for example, in a `ROLE_MAP.md`).
+* **Governance Rule:** The Canon governs behavior by Role. File names and directory structures are implementation details.
+
+### 1.2 Canonical Roles
+The following roles are normative. Projects may refine or extend them, but their responsibilities may not be weakened.
+
+* **Memory Subsystem**  
+  Responsible for raw allocation, region management, allocator policy, and pointer-level operations.
+
+* **Data Structure Subsystem**  
+  Responsible for generic containers, hashing, indexing, and collection primitives.
+
+* **I/O Subsystem**  
+  Responsible for operating system interaction, files, sockets, devices, and external boundaries.
+
+* **Application Logic**  
+  All remaining business logic, orchestration, tests, and feature code.
+
+---
+
+## 2. DEFINITIONS & GLOSSARY
+
+* **2.1 Logical Unit** — A function, module, class, or file with a single coherent responsibility.
+* **2.2 Public Interface** — Any API, type, function, or symbol intended for use beyond its immediate maintenance context.
+* **2.3 Competent Engineer** — An engineer proficient in the relevant domain and language, capable of forming a correct mental model of a unit.
+* **2.4 Five-Minute Rule** — A Logical Unit must be understandable by a Competent Engineer within approximately five minutes of focused reading. Failure implies excessive complexity.
+* **2.5 Systemic Issue** — A design flaw spanning multiple units (e.g., circular dependencies, violated layering, pervasive global state).
+
+---
+
+## 3. COMPLIANCE TIERS
+
+Enforcement is tiered by lifecycle stage to preserve rigor without paralyzing progress.
+
+### 3.1 Tier A — Greenfield (New Code)
 * **Definition:** New files, modules, or logically independent subsystems.
-* **Mandate:** All Tier A code MUST fully comply with every requirement of this canon. No technical debt may be introduced at merge time.
+* **Mandate:** Tier A code **MUST** comply fully with this Canon at merge time. No technical debt may be introduced.
 
-**1.1.2 Tier B — Touched Legacy (Refactoring by Contact)**
+### 3.2 Tier B — Touched Legacy (Refactoring by Contact)
+* **Definition:** Existing code modified during feature work or defect correction.
+* **Mandate:** The specific Logical Unit being modified **MUST** be elevated to Tier A standards (naming, tests, contracts).
+* **Scope Control:** Cleanup is intentionally time-bounded.
+* **Escalation Rule:** Discovery of a Systemic Issue **MUST** result in an Escalation Ticket rather than an ad-hoc workaround.
 
-* **Definition:** Existing code modified as part of feature work or bug fixing.
-* **Mandate:**
-* The specific function or logical unit being modified MUST be brought to full Tier A compliance.
-* Improvements MUST include naming clarity, error handling, and tests.
-* **Scope Control:** Cleanup is time-bounded (expected effort: minutes, not days).
-
-
-* **Escalation:** If improving the touched unit reveals systemic issues (e.g., circular dependencies), the change MUST be escalated for broader refactoring approval rather than hacked in.
-
-**1.1.3 Tier C — Frozen Legacy**
-
-* **Definition:** Existing code not under active modification.
-* **Mandate:** Tier C code is exempt from proactive refactoring.
-* **Exception:** Any defect fix promotes the affected unit to Tier B for the duration of the change.
+### 3.3 Tier C — Frozen Legacy
+* **Definition:** Code not under active modification.
+* **Mandate:** Exempt from proactive refactoring. Any defect fix promotes the affected unit to Tier B.
 
 ---
 
-### 2. STRUCTURAL CLARITY AND COGNITIVE LOAD
+## 4. MEMORY DISCIPLINE
 
-#### 2.1 The Complexity Boundary
+### 4.1 Prohibition
+Direct interaction with system allocators (e.g., `malloc`, `free`, `mmap`, `new`) is **PROHIBITED** in Application Logic, I/O, or general-purpose subsystems.
 
-* **Principle:** A competent engineer familiar with the domain must be able to understand a unit of logic within a bounded period of focused reading.
-* **The Five-Minute Rule:** If a function or algorithm cannot be understood within approximately five minutes of uninterrupted review, it is considered **excessively complex** and MUST be addressed by:
-1. Decomposition.
-2. Refactoring.
-3. Or formal exemption.
+### 4.2 Role-Restricted Exception
+Direct interaction with platform memory APIs is permitted **only** within the **Memory Subsystem**.
 
-
-
-**Complexity Exemptions (Governed)**
-Only the following categories may qualify:
-
-* Cryptographic primitives.
-* Optimized DSP or numerical kernels.
-* Hardware-constrained drivers.
-
-**Exemption Requirements:**
-
-* Refactoring must be demonstrably infeasible.
-* **Double Sign-off:** Two reviewers must explicitly approve the exemption.
-* **Deep Documentation** (Clause 3.2) is mandatory.
-
-#### 2.2 Naming as Executable Documentation
-
-Identifiers MUST describe intent, not implementation detail.
-
-* **Prohibited:** `data`, `tmp`, `doWork()`, `flag`
-* **Required:** `retry_backoff_schedule`, `validate_packet_crc()`, `is_cache_stale`
-
-**Magic Values Prohibited:** All literals influencing logic MUST be named constants.
-
-#### 2.3 File Organization
-
-* **Responsibility:** Files MUST adhere to a single, coherent responsibility.
-* **Navigability:** Files exceeding ~300 lines MUST include visual structure markers (e.g., `// --- PUBLIC API ---`) to aid orientation.
+### 4.3 Enforcement Implications
+* Any change requiring dynamic allocation **MUST** use abstractions exposed by the Memory Subsystem.
+* Pull Requests introducing allocator calls outside the Memory Subsystem **MUST** be rejected.
 
 ---
 
-### 3. DOCUMENTATION AND CONTRACTS
+## 5. COMPLEXITY EXEMPTIONS (ROLE-AWARE)
 
-#### 3.1 Public Interface Contract
+### 5.1 Principle
+The Canon favors decomposition. Exemptions to the Five-Minute Rule are granted only when decomposition would compromise correctness, performance, or hardware constraints.
 
-The Public Interface is the binding contract. Every exposed element MUST include structured documentation specifying:
+### 5.2 Universal Exemption Categories
+The following categories **MAY** qualify for exemption **only** within their appropriate Architectural Role:
 
-1. **Intent**
-2. **Usage Example**
-3. **Constraints/Invariants**
-4. **Failure Modes** (Explicit error semantics)
+1. **Cryptographic Primitives** — Proof sketch required.
+2. **Optimized DSP or Numerical Kernels** — Benchmarks required.
+3. **Fundamental Data Structures** — Only within the Data Structure Subsystem.
+4. **Memory Allocator Internals** — Only within the Memory Subsystem.
 
-#### 3.2 Deep Documentation (Mandatory for Exemptions)
-
-For logic exempted under Clause 2.1, inline comments are insufficient.
-
-* **Location:** `/docs/algorithms/<component>.md`
-* **Content:** Problem statement, theoretical approach, references (papers/datasheets), edge cases, and performance characteristics.
-* **Linkage:** Code MUST explicitly reference this document.
-
----
-
-### 4. VERIFICATION AND TESTING
-
-#### 4.1 Tests as Functional Requirements
-
-Tests are mandatory artifacts, not optional add-ons.
-
-* **Mandate:** All Tier A public interfaces MUST be unit tested.
-* **Coverage Targets:**
-* **Scope:** Targets apply strictly to the *module or unit under test*, not the global codebase.
-* **Core Logic:** ≥80% Branch Coverage.
-* **Utilities:** ≥60% Statement Coverage.
-
-
-
-#### 4.2 Defect Handling
-
-* **Reproduction First:** Every bug fix MUST begin with a failing reproduction test.
-* **Definition of Done:** A fix is complete only when the reproduction test passes.
+### 5.3 Mandatory Controls
+All exemptions require:
+* Demonstrated infeasibility of safe decomposition.
+* **Double Sign-off** by reviewers with domain expertise.
+* **Deep Documentation** as defined in Section 6.
 
 ---
 
-### 5. AUTOMATION AND TOOLING
+## 6. DEEP DOCUMENTATION & CO-LOCATION
 
-#### 5.1 Machine-Enforced Standards
+### 6.1 Co-Location Rule
+Documentation for complex or exempt logic **MUST** be co-located within a `docs/` hierarchy mirroring the source tree.
 
-Human review is reserved for reasoning, not formatting.
+*Example:* `src/ds/map.c` → `docs/ds/map.md`
 
-* **Formatters:** Mandatory and enforced in CI (e.g., `clang-format`, `rustfmt`, `black`).
-* **Static Analysis:** CI MUST fail on any new warnings introduced in Tier A/B code.
-* **Gate:** Changes failing automation are not eligible for human review.
+### 6.2 Required Contents
+Deep Documentation **MUST** include:
+1. Problem Statement
+2. Rejected Design Alternatives
+3. Correctness Arguments or Invariants
+4. Failure Modes and Edge Cases
+5. Performance Characteristics or Microbenchmarks (where applicable)
+
+### 6.3 Source Linkage
+Source files implementing complex logic **MUST** include a header reference to the corresponding Deep Document.
 
 ---
 
-### 6. REVIEW AUTHORITY
+## 7. PUBLIC INTERFACE CONTRACTS
 
-#### 6.1 Rejection Criteria
+### 7.1 Intent-First Requirement
+Every Public Interface **MUST** include structured documentation specifying:
+1. Intent
+2. Minimal Usage Example
+3. Preconditions and Postconditions
+4. Explicit Failure Semantics
 
-A Change Request MUST be rejected if:
+### 7.2 Machine Readability
+Projects *SHOULD* include a machine-readable (YAML/JSON) block alongside interface documentation to enable automated analysis.
 
+---
+
+## 8. TOOLING & AUTOMATION
+
+### 8.1 Machine-Verifiable Configuration
+Each repository **MUST** define a root-level configuration file (e.g., `.asc_requirements.toml`) declaring required tooling and versions.
+
+The Canon intentionally names no tools. The configuration file is authoritative.
+
+### 8.2 CI Enforcement
+Continuous Integration **MUST** enforce formatting, static analysis, and testing.
+* Failing automation **PROHIBITS** human review.
+* CI **MUST** fail on any new warnings introduced in Tier A or Tier B code.
+
+---
+
+## 9. GOVERNANCE & METRICS
+
+### 9.1 Exemption Registry
+All exemptions **MUST** be recorded in a central log (e.g., `docs/exemptions/`) including rationale, reviewers, and a sunset or re-evaluation date.
+
+### 9.2 Review Authority
+A Change Request **MUST** be rejected if:
 * Required tests are missing.
-* The reviewer cannot understand the logic (Five-Minute Rule).
+* The logic violates the Five-Minute Rule.
 * Errors are silently ignored.
-* Magic values are present.
+* Magic values exist without named constants.
 
-#### 6.2 Acceptance Criteria
-
-A Change Request MAY be accepted only if:
-
-* All automated checks pass.
-* Tier obligations are satisfied.
-* Intent is evident without verbal explanation.
+### 9.3 Health Indicators
+Projects *SHOULD* track:
+* Tier A Compliance Rate (Target: 100%)
+* Defect Escape Rate (Target: <0.1 per KLOC)
+* Review Cycle Time (Target: <24h)
 
 ---
 
-### 7. METRICS AND MONITORING
+## 10. CONTRIBUTOR CHECKLIST
 
-To ensure this standard improves quality rather than adding friction, the following metrics shall be tracked:
+Before opening a Pull Request:
 
-1. **Tier A Compliance Rate:** % of new code meeting full standards (Target: 100%).
-2. **Defect Escape Rate:** Bugs found in Tier A/B code after merge (Target: <0.1 per KLOC).
-3. **Review Cycle Time:** Time from submission to merge (Target: <24h).
-4. **Complexity Trend:** Average Cyclomatic Complexity per function (Target: Stable or Decreasing).
-
----
-
-### 8. ADOPTION STRATEGY
-
-* **Phase 1 (Education):** Tooling setup (Linters/Formatters) and team alignment.
-* **Phase 2 (Greenfield):** ASC applied strictly to new repos and modules.
-* **Phase 3 (Brownfield):** "Boy Scout" rule (Tier B) activated for legacy codebases.
+* [ ] Change is mapped to an Architectural Role
+* [ ] Tier obligations are satisfied
+* [ ] No direct allocation outside the Memory Subsystem
+* [ ] Public interfaces include Intent-First contracts
+* [ ] Complex logic has co-located Deep Documentation
+* [ ] Automation configuration is respected
+* [ ] Defects include reproduction tests
 
 ---
 
-*Reference: ASC-1.0. Released into the Public Domain.*
+*Reference: Avant Systems Canon (ASC-1.1). Released into the Public Domain.*
