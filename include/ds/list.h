@@ -5,7 +5,7 @@
  *
  * Governed by The Architectural Rigor Standard (ARS-1.0).
  * Compliance is mandatory for all contributions.
-*/
+ */
 
 #ifndef CAMELOT_LIST_H
 #define CAMELOT_LIST_H
@@ -22,60 +22,60 @@ extern "C" {
 // Ensures O(1) pointer stability (pointers to elements never invalidate).
 // Grows automatically by allocating new pages from the source Arena.
 typedef struct {
-      Arena* source;
-      void** pages;
-      u64 pages_cap;
-      u64 pages_len;
-      u64 item_size;
-      u64 count;
+  Arena *source;
+  void **pages;
+  u64 pages_cap;
+  u64 pages_len;
+  u64 item_size;
+  u64 count;
 } List;
 
 // --- NAMESPACE ---
 
 typedef struct {
-      /*
-       * INTENT: Initializes a new Paged List on the given Arena.
-       * USAGE:
-       * ```
-       * List ints = list.create(&ctx, sizeof(int));
-       * ```
-       * INVARIANTS: List owns no memory until first push.
-       * FAILURE MODES: Returns valid struct; allocation failures occur on push.
-       */
-      List (*create)(Arena *a, u64 item_size);
+  /*
+   * INTENT: Initializes a new Paged List on the given Arena.
+   * USAGE:
+   * ```
+   * List ints = list.create(&ctx, sizeof(int));
+   * ```
+   * INVARIANTS: List owns no memory until first push.
+   * FAILURE MODES: Returns valid struct; allocation failures occur on push.
+   */
+  List (*create)(Arena *a, u64 item_size);
 
-      /*
-       * INTENT: Appends a copy of the data to the end of the list.
-       * USAGE:
-       * ```
-       * list.push(&ints, &value);
-       * ```
-       * INVARIANTS: Pointers to existing elements remain valid (No Realloc).
-       * FAILURE MODES: Triggers OOM on Arena if page allocation fails.
-       */
-      void (*push)(List *l, void *item_ptr);
+  /*
+   * INTENT: Appends a copy of the data to the end of the list.
+   * USAGE:
+   * ```
+   * list.push(&ints, &value);
+   * ```
+   * INVARIANTS: Pointers to existing elements remain valid (No Realloc).
+   * FAILURE MODES: Triggers OOM on Arena if page allocation fails.
+   */
+  void (*push)(List *l, void *item_ptr);
 
-      /*
-       * INTENT: Retrieves a pointer to the mutable item at index.
-       * USAGE:
-       * ```
-       * int *x = list.get(&ints, 5);
-       * ```
-       * INVARIANTS: O(1) access time.
-       * FAILURE MODES: Returns NULL if index >= count.
-       */
-      void* (*get)(List *l, u64 index);
+  /*
+   * INTENT: Retrieves a pointer to the mutable item at index.
+   * USAGE:
+   * ```
+   * int *x = list.get(&ints, 5);
+   * ```
+   * INVARIANTS: O(1) access time.
+   * FAILURE MODES: Returns NULL if index >= count.
+   */
+  void *(*get)(List *l, u64 index);
 
-      /*
-       * INTENT: Swap-removes the item at index (unordered removal).
-       * USAGE:
-       * ```
-       * list.remove(&ints, 5);
-       * ```
-       * INVARIANTS: Moves the last element into the removed slot.
-       * FAILURE MODES: No-op if index >= count.
-       */
-      void (*remove)(List *l, u64 index);
+  /*
+   * INTENT: Swap-removes the item at index (unordered removal).
+   * USAGE:
+   * ```
+   * list.remove(&ints, 5);
+   * ```
+   * INVARIANTS: Moves the last element into the removed slot.
+   * FAILURE MODES: No-op if index >= count.
+   */
+  void (*remove)(List *l, u64 index);
 } ListNamespace;
 
 extern const ListNamespace list;

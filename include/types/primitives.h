@@ -5,7 +5,7 @@
  *
  * Governed by The Architectural Rigor Standard (ARS-1.0).
  * Compliance is mandatory for all contributions.
-*/
+ */
 
 #ifndef CAMELOT_PRIMITIVES_H
 #define CAMELOT_PRIMITIVES_H
@@ -16,9 +16,9 @@ extern "C" {
 
 #include <stdint.h>
 #include <stdbool.h>
-#include <stddef.h>
 
-// --- FIXED WIDTH TYPES ---
+// --- CORE TYPES ---
+
 typedef uint8_t u8;
 typedef uint16_t u16;
 typedef uint32_t u32;
@@ -33,14 +33,14 @@ typedef float f32;
 typedef double f64;
 
 // --- ERROR HANDLING ---
+
 typedef enum {
-      OK = 0,
-      OOM,
-      OOB,
-      INVALID_KEY,
-      FILE_NOT_FOUND,
-      IO_ERROR,
-      TYPE_ERROR
+  OK = 0,
+  OOM,
+  OOB,
+  INVALID_KEY,
+  FILE_NOT_FOUND,
+  IO_ERROR,
 } Result;
 
 #ifdef __cplusplus
