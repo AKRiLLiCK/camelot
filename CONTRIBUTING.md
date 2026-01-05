@@ -156,13 +156,11 @@ Projects *SHOULD* include a machine-readable (YAML/JSON) block alongside interfa
 ## 8. TOOLING & AUTOMATION
 
 ### 8.1 Machine-Verifiable Configuration
+Each repository **MUST** define its tooling and versions via an active **Continuous Integration Workflow** (e.g., `.github/workflows/asc.yml`).
 
-Each repository **MUST** define a root-level configuration file (e.g., `.asc_requirements.toml`) declaring required tooling and versions.
-
-The Canon intentionally names no tools. The configuration file is authoritative.
+Passive configuration files (like `.toml`) are optional; the CI Workflow is the authoritative source of truth for tool versions (e.g., `clang-format-15`).
 
 ### 8.2 CI Enforcement
-
 Continuous Integration **MUST** enforce formatting, static analysis, and testing.
 
 * Failing automation **PROHIBITS** human review.

@@ -1,0 +1,40 @@
+name: ASC-1.1 Compliance
+# Authority: Avant Systems Canon (Clause 8)
+
+on: [push, pull_request]
+
+jobs:
+  enforce-standards:
+    name: Tier A Compliance Gates
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v3
+
+      # Gate 1: Tooling Versions (Clause 8.1)
+      - name: Setup Canonical Toolchain
+        run: |
+          sudo apt-get update && sudo apt-get install -y clang-format-15 cppcheck valgrind
+          # Ensure GCC 12+ for C2x support (standard on ubuntu-latest)
+          gcc --version
+
+      # Gate 2: Formatting (Clause 8.2)
+      - name: Enforce Formatting (Clang-Format)
+        run: |
+          # Fails if any file is not formatted correctly
+          find src include tests -name "*.[ch]" | xargs clang-format-15 --dry-run --Werror
+
+      # Gate 3: Static Analysis (Clause 8.2)
+      - name: Enforce Static Analysis (CppCheck)
+        run: |
+          # Fails on any error/warning. Includes your dirs.
+          cppcheck --error-exitcode=1 --enable=warning,performance,portability \
+            --suppress=missingIncludeSystem \
+            --std=c11 \
+            -I include/ src/ tests/ .
+
+      # Gate 4: Verification & Memory Safety (Clause 4 & 5)
+      - name: Tier A Verification (Unit Tests)
+        run: |
+          # Uses your Makefile
+          make test

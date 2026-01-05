@@ -34,8 +34,7 @@ This document maps the physical source tree of **Camelot** to the **Avant System
 * `tests/`
 * `include/camelot.h` (Public Entry Point)
 * `Makefile`
-* `logo.svg`
-* Root directory files (`.gitignore`, `LICENSE`, etc.)
+* Root directory files
 
 ---
 *Note: Any file not explicitly listed above defaults to **Application Logic**.*
