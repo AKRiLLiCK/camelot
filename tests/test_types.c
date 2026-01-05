@@ -7,9 +7,11 @@
  * Compliance is mandatory for all contributions.
  */
 
+// clang-format off
+#include <string.h>
 #include "camelot.h"
 #include "tests.h"
-#include <string.h>
+// clang-format on
 
 TEST(test_string_construction) {
   // 1. Manual

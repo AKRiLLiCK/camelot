@@ -7,10 +7,12 @@
  * Compliance is mandatory for all contributions.
  */
 
-#include "camelot.h"
-#include "tests.h"
+// clang-format off
 #include <stdio.h>
 #include <string.h>
+#include "camelot.h"
+#include "tests.h"
+// clang-format on
 
 static void setup_file(const char *name, const char *content) {
   FILE *f = fopen(name, "wb");

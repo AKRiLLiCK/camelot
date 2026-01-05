@@ -7,12 +7,14 @@
  * Compliance is mandatory for all contributions.
  */
 
-#include "camelot.h"
-#include "tests.h"
+// clang-format off
 #include <fcntl.h> // open, O_RDONLY
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h> // close
+#include "camelot.h"
+#include "tests.h"
+// clang-format on
 
 // --- HELPERS (For Scan Tests) ---
 

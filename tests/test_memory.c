@@ -7,9 +7,11 @@
  * Compliance is mandatory for all contributions.
  */
 
+// clang-format off
+#include <stdint.h>
 #include "camelot.h"
 #include "tests.h"
-#include <stdint.h>
+// clang-format on
 
 TEST(test_alignment) {
   Arena a = arena.create(1024);

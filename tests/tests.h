@@ -10,8 +10,10 @@
 #ifndef TESTS_H
 #define TESTS_H
 
-#include "camelot.h"
+// clang-format off
 #include <stdio.h>
+#include "camelot.h"
+// clang-format on
 
 #define ALLOW_UNSAFE
 
