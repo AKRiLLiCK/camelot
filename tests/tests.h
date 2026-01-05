@@ -10,8 +10,8 @@
 #ifndef TESTS_H
 #define TESTS_H
 
-#include <stdio.h>
 #include "camelot.h"
+#include <stdio.h>
 
 #define ALLOW_UNSAFE
 
@@ -26,24 +26,24 @@ static int tests_failed = 0;
  * Usage: REQUIRE(x == 1);
  * Effect: Prints failure and increments counter if condition is false.
  */
-#define REQUIRE(condition)                                                                         \
-      do {                                                                                         \
-            if (!(condition)) {                                                                    \
-                  printf("FAILED: [%s] at %s:%d\n", #condition, __FILE__, __LINE__);               \
-                  tests_failed++;                                                                  \
-            }                                                                                      \
-      } while (0)
+#define REQUIRE(condition)                                                     \
+  do {                                                                         \
+    if (!(condition)) {                                                        \
+      printf("FAILED: [%s] at %s:%d\n", #condition, __FILE__, __LINE__);       \
+      tests_failed++;                                                          \
+    }                                                                          \
+  } while (0)
 
 /*
  * MACRO: RUN
  * Usage: RUN(test_name);
  * Effect: Executes the test function and tracks stats.
  */
-#define RUN(test)                                                                                  \
-      do {                                                                                         \
-            printf("Running %s...\n", #test);                                                      \
-            test();                                                                                \
-            tests_run++;                                                                           \
-      } while (0)
+#define RUN(test)                                                              \
+  do {                                                                         \
+    printf("Running %s...\n", #test);                                          \
+    test();                                                                    \
+    tests_run++;                                                               \
+  } while (0)
 
 #endif
