@@ -33,40 +33,59 @@ typedef enum {
 // --- NAMESPACE ---
 
 typedef struct {
-      // Reads a line from stdin into the Arena.
-      // Buffer-overflow proof. Handles CRLF/LF line endings.
-      // Usage:
-      // ```
-      // String name = io.scan(&ctx, 0); 
-      // ```
+      /*
+       * INTENT: Reads a line from stdin into the Arena with buffer overflow protection.
+       * USAGE:
+       * ```
+       * String name = io.scan(&ctx, 0); 
+       * ```
+       * INVARIANTS: Result is always null-terminated. Handles CRLF/LF automatically.
+       * FAILURE MODES: Returns empty string if EOF reached or allocation fails.
+       */
       String (*scan)(Arena *a, u64 cap);
 
-      // Writes a raw String to stdout.
-      // Usage:
-      // ```
-      // io.put(s);
-      // ```
+      /*
+       * INTENT: Writes a raw String view to stdout.
+       * USAGE:
+       * ```
+       * io.put(s);
+       * ```
+       * INVARIANTS: Does not append newline. O(1) if write buffers are available.
+       * FAILURE MODES: Silent failure if stdout is closed.
+       */
       void (*put)(String s);
 
-      // Formatted print supporting Camelot types (%S, %s, %i, %f).
-      // Usage:
-      // ```
-      // io.print("User: %S\n", name);
-      // ```
+      /*
+       * INTENT: Formatted print supporting Camelot types (%S, %s, %i, %f).
+       * USAGE:
+       * ```
+       * io.print("User: %S\n", name);
+       * ```
+       * INVARIANTS: Thread-safe if underlying libc write is thread-safe.
+       * FAILURE MODES: Truncates output if internal buffers (rare) are exceeded.
+       */
       void (*print)(const char *fmt, ...);
 
-      // Reads an entire file into memory. Auto-closes the file.
-      // Usage:
-      // ```
-      // String config = io.slurp(&ctx, "config.ini");
-      // ```
+      /*
+       * INTENT: Reads an entire file into memory and auto-closes the handle.
+       * USAGE:
+       * ```
+       * String config = io.slurp(&ctx, "config.ini");
+       * ```
+       * INVARIANTS: Returns null-terminated string.
+       * FAILURE MODES: Returns NULL string (ptr=0) if file missing or read fails.
+       */
       String (*slurp)(Arena *a, const char *path);
 
-      // Unified dispatcher for Files, Pipes, and Sockets.
-      // Usage:
-      // ```
-      // io.stream(&f, READ, buf, 1024);
-      // ```
+      /*
+       * INTENT: Unified dispatcher for Files, Pipes, and Sockets operations.
+       * USAGE:
+       * ```
+       * io.stream(&f, READ, buf, 1024);
+       * ```
+       * INVARIANTS: Maintains file cursor state.
+       * FAILURE MODES: Returns 0 on failure/EOF. Check f->status for details.
+       */
       u64 (*stream)(File *f, Op op, void *arg, u64 num);
 } IONamespace;
 

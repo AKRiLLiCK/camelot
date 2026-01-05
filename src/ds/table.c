@@ -5,18 +5,24 @@
  *
  * Governed by The Architectural Rigor Standard (ARS-1.0).
  * Compliance is mandatory for all contributions.
+ *
+ * See: https://camelot-1.gitbook.io/docs/ds/table
 */
 
 #include <string.h>
 #include "camelot.h"
 
+// --- CONSTANTS ---
+#define FNV_OFFSET_BASIS 0xcbf29ce484222325
+#define FNV_PRIME        0x100000001b3
+
 // --- HELPERS ---
 
 static u64 hash_str(String s) {
-      u64 hash = 0xcbf29ce484222325;
+      u64 hash = FNV_OFFSET_BASIS;
       for (u64 i = 0; i < s.len; i++) {
             hash ^= s.ptr[i];
-            hash *= 0x100000001b3;
+            hash *= FNV_PRIME;
       }
       return hash;
 }
@@ -28,9 +34,6 @@ static Table internal_create(Arena *a, u64 cap) {
       
       Entry *entries = arena.alloc(a, sizeof(Entry) * cap);
       
-      // We assume entries are garbage, so we explicitly clear the 'alive' flag
-      // or we rely on arena.create zeroing the memory. 
-      // Safe bet: explicitly set alive = false.
       for (u64 i=0; i<cap; i++) entries[i].alive = false;
 
       return (Table){

@@ -39,7 +39,7 @@ static void ensure_directory(List *l) {
       l->pages_cap = new_cap;
 }
 
-static void internal_push(List *l, void *data) {
+static void internal_push(List *l, void *item_ptr) {
       u64 page_idx = l->count / PAGE_SIZE;
       u64 item_idx = l->count % PAGE_SIZE;
 
@@ -51,7 +51,7 @@ static void internal_push(List *l, void *data) {
       }
 
       u8 *target = (u8*)l->pages[page_idx] + (item_idx * l->item_size);
-      memcpy(target, data, l->item_size);
+      memcpy(target, item_ptr, l->item_size);
       l->count++;
 }
 

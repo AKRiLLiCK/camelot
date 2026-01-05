@@ -33,32 +33,48 @@ typedef struct {
 // --- NAMESPACE ---
 
 typedef struct {
-      // Initializes a new List on the given Arena.
-      // Usage:
-      // ```
-      // List ints = list.create(&ctx, sizeof(int));
-      // ```
+      /*
+       * INTENT: Initializes a new Paged List on the given Arena.
+       * USAGE:
+       * ```
+       * List ints = list.create(&ctx, sizeof(int));
+       * ```
+       * INVARIANTS: List owns no memory until first push.
+       * FAILURE MODES: Returns valid struct; allocation failures occur on push.
+       */
       List (*create)(Arena *a, u64 item_size);
 
-      // Appends data to the end of the list.
-      // Usage:
-      // ```
-      // list.push(&ints, &value);
-      // ```
-      void (*push)(List *l, void *data);
+      /*
+       * INTENT: Appends a copy of the data to the end of the list.
+       * USAGE:
+       * ```
+       * list.push(&ints, &value);
+       * ```
+       * INVARIANTS: Pointers to existing elements remain valid (No Realloc).
+       * FAILURE MODES: Triggers OOM on Arena if page allocation fails.
+       */
+      void (*push)(List *l, void *item_ptr);
 
-      // Retrieves a pointer to the item at index.
-      // Usage:
-      // ```
-      // int *x = list.get(&ints, 5);
-      // ```
+      /*
+       * INTENT: Retrieves a pointer to the mutable item at index.
+       * USAGE:
+       * ```
+       * int *x = list.get(&ints, 5);
+       * ```
+       * INVARIANTS: O(1) access time.
+       * FAILURE MODES: Returns NULL if index >= count.
+       */
       void* (*get)(List *l, u64 index);
 
-      // Swap-removes the item at index.
-      // Usage:
-      // ```
-      // list.remove(&ints, 5);
-      // ```
+      /*
+       * INTENT: Swap-removes the item at index (unordered removal).
+       * USAGE:
+       * ```
+       * list.remove(&ints, 5);
+       * ```
+       * INVARIANTS: Moves the last element into the removed slot.
+       * FAILURE MODES: No-op if index >= count.
+       */
       void (*remove)(List *l, u64 index);
 } ListNamespace;
 

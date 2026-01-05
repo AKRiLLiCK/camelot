@@ -26,45 +26,54 @@ typedef struct {
 } Arena;
 
 // A scoped, owning Arena that cleans itself up automatically.
-// Usage:
-// ```
-// Workspace ctx = arena.create(1024);
-// ```
 static inline void _cleanup_arena_func(Arena *a); 
 #define Workspace __attribute__((cleanup(_cleanup_arena_func))) Arena
 
 // --- NAMESPACE ---
 
 typedef struct {
-      // Creates a new memory context from the OS.
-      // Returns the Arena struct by value.
-      // Usage:
-      // ```
-      // Workspace ctx = arena.create(1024);
-      // ```
+      /*
+       * INTENT: Creates a new memory context from the OS (malloc wrapper).
+       * USAGE:
+       * ```
+       * Workspace ctx = arena.create(1024);
+       * ```
+       * INVARIANTS: Memory is securely zeroed upon creation.
+       * FAILURE MODES: Returns status=OOM if OS refuses allocation.
+       */
       Arena (*create)(u64 size);
 
-      // Returns memory to the OS.
-      // Note: Called automatically if using 'Workspace'.
-      // Usage:
-      // ```
-      // arena.release(&a);
-      // ```
+      /*
+       * INTENT: Returns memory to the OS.
+       * USAGE:
+       * ```
+       * arena.release(&a);
+       * ```
+       * INVARIANTS: Sets buffer pointer to NULL to prevent double-free.
+       * FAILURE MODES: Safe to call on NULL/empty arenas.
+       */
       void (*release)(Arena *a);
 
-      // Resets the cursor to zero and securely zeroes the buffer.
-      // Usage:
-      // ```
-      // arena.clear(&a);
-      // ```
+      /*
+       * INTENT: Resets cursor to zero and securely zeroes buffer content.
+       * USAGE:
+       * ```
+       * arena.clear(&a);
+       * ```
+       * INVARIANTS: Capacity remains unchanged.
+       * FAILURE MODES: None.
+       */
       void (*clear)(Arena *a);
 
-      // Reserves 'size' bytes from the linear buffer.
-      // Returns NULL if the Arena is full (OOM).
-      // Usage:
-      // ```
-      // int *x = arena.alloc(&ctx, sizeof(int));
-      // ```
+      /*
+       * INTENT: Reserves 'size' bytes from the linear buffer with 8-byte alignment.
+       * USAGE:
+       * ```
+       * int *x = arena.alloc(&ctx, sizeof(int));
+       * ```
+       * INVARIANTS: Returned pointer is 8-byte aligned.
+       * FAILURE MODES: Returns NULL and sets a->status=OOM if full.
+       */
       void* (*alloc)(Arena *a, u64 size);
 } ArenaNamespace;
 

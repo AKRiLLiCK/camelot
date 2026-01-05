@@ -33,25 +33,37 @@ typedef struct {
 // --- NAMESPACE ---
 
 typedef struct {
-      // Creates a Hash Table with Linear Probing.
-      // Usage:
-      // ```
-      // Table config = table.create(&ctx, 64);
-      // ```
+      /*
+       * INTENT: Creates a Hash Table with Linear Probing.
+       * USAGE:
+       * ```
+       * Table config = table.create(&ctx, 64);
+       * ```
+       * INVARIANTS: Capacity is at least 16.
+       * FAILURE MODES: Returns empty/valid struct (alloc happens on creation).
+       */
       Table (*create)(Arena *a, u64 capacity);
 
-      // Maps a String key to a value pointer.
-      // Usage:
-      // ```
-      // table.put(&config, string.from("Key"), &value);
-      // ```
+      /*
+       * INTENT: Maps a String key to a value pointer. Overwrites if exists.
+       * USAGE:
+       * ```
+       * table.put(&config, string.from("Key"), &value);
+       * ```
+       * INVARIANTS: Auto-resizes if load factor > 0.75.
+       * FAILURE MODES: Triggers OOM if resize fails.
+       */
       void (*put)(Table *t, String key, void *value);
 
-      // Retrieves the value pointer associated with the key.
-      // Usage:
-      // ```
-      // int *val = table.get(&config, string.from("Key"));
-      // ```
+      /*
+       * INTENT: Retrieves the value pointer associated with the key.
+       * USAGE:
+       * ```
+       * int *val = table.get(&config, string.from("Key"));
+       * ```
+       * INVARIANTS: O(1) average case lookup.
+       * FAILURE MODES: Returns NULL if key not found.
+       */
       void* (*get)(Table *t, String key);
 } TableNamespace;
 
