@@ -1,13 +1,13 @@
-# Avant Systems Canon (ASC-1.1)
-**A Universal Standard for Architectural Integrity, Safety, and Engineering Rigor.**
+# Avant Systems Canon (ASC-1.2)
 
 ---
 
 ## 1. UNIVERSAL APPLICABILITY
-The Canon governs by **Architectural Role**, not by language-specific syntax. It ensures that systems software remains deterministic, manageable, and performant regardless of the underlying language (C, C++, Zig, Rust, Odin).
+The Canon governs by **Architectural Role**, not by language-specific syntax. It ensures that systems software remains deterministic, manageable, and performant regardless of the underlying language.
 
 ### 1.1 Role Mapping
-* **Adoption Requirement:** Any codebase adopting this Canon **MUST** map its source tree to these Architectural Roles (e.g., via a `ROLE_MAP.md`).
+* **Adoption Requirement:** Any codebase adopting this Canon **MUST** map its source tree to these Architectural Roles via a `ROLE_MAP.md`.
+* **Dependency Matrix:** The `ROLE_MAP` must explicitly define permitted cross-subsystem dependencies. Circular or unauthorized dependencies are prohibited.
 * **Governance Rule:** Physical directory structures are implementation details; the Canon governs behavior based on a component's Role.
 
 ### 1.2 Canonical Roles
@@ -25,15 +25,27 @@ The Canon governs by **Architectural Role**, not by language-specific syntax. It
 Integrity is maintained through a strict, linear progression of state.
 
 * **Atomic Contributions:** Changes must be scoped to a single logical improvement.
-* **Verification:** Contributions are invalid until verified by the local automated test suite.
-* **The Automaton:** All submissions are subject to machine-led verification. Human review is a secondary check for intent, never a primary check for syntax or hygiene.
+* **Verification:** Contributions are invalid until verified by the local automated test suite (`make test`).
+* **The Automaton:** All submissions are subject to machine-led verification (CI/CD). Human review is a secondary check for intent, never a primary check for syntax or hygiene.
+* **Chain of Command:** Reviews must follow the authority defined in `CODEOWNERS`.
 
 ---
 
 ## 3. ENGINEERING STANDARDS
 * **Naming:** Use consistent, language-idiomatic casing.
-* **Immutability:** Data not intended for modification **MUST** be marked immutable at the API boundary.
+* **Immutability:** Data not intended for modification **MUST** be marked immutable (`const`) at the API boundary.
 * **State Isolation:** Global mutable state is **PROHIBITED**. State must be passed explicitly to ensure thread safety and deterministic testing.
+
+---
+
+## 4. COMMUNICATION & MESSAGING
+We utilize **Conventional Commits** to ensure the history of the system is machine-readable and logically structured.
+
+* `feat:` (New functionality)
+* `fix:` (Correcting erroneous behavior)
+* `refactor:` (Structural changes without functional impact)
+* `perf:` (Optimization of resource usage)
+* `docs:` (Documentation updates)
 
 ---
 
@@ -72,8 +84,14 @@ Disabling the Automaton (Formatting) is permitted **only** in specific blocks wh
 
 ---
 
-## 7. INTELLECTUAL PROPERTY & LICENSING
+## 7. SECURITY PROTOCOLS
+* **Reporting:** Vulnerabilities must be reported privately via the channels defined in `SECURITY.md`. Public disclosure of exploits without responsible notice is a violation of the Canon.
+* **Threat Model:** The "Safe" subset of the API guarantees memory safety; "Unsafe" hatches do not. Reports must demonstrate a violation of the Safe API guarantees.
+
+---
+
+## 8. INTELLECTUAL PROPERTY & LICENSING
 By contributing to a project governed by this Canon, the contributor agrees to the licensing terms defined in the root of the specific project.
 
 ---
-**Avant Systems Canon (ASC-1.1).** *Released into the Public Domain. Formalize the Architecture. Own the Machine.*
+**Avant Systems Canon (ASC-1.2).** *Released into the Public Domain.*
