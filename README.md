@@ -53,8 +53,6 @@ We follow a strict, layered architectural progression (Epochs).
 
 **[View the Strategic Roadmap](https://camelot-1.gitbook.io/docs/roadmap)**
 
-**Current Focus (Epoch 2):** Compatibility & Hardening.
-
 ---
 
 ## Structure
