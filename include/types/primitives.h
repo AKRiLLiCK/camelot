@@ -35,12 +35,12 @@ typedef double f64;
 // --- ERROR HANDLING ---
 
 typedef enum {
-  OK = 0,
-  OOM,
-  OOB,
-  INVALID_KEY,
-  FILE_NOT_FOUND,
-  IO_ERROR,
+	OK = 0,
+	OOM,
+	OOB,
+	INVALID_KEY,
+	FILE_NOT_FOUND,
+	IO_ERROR,
 } Result;
 
 #ifdef __cplusplus

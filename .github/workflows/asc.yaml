@@ -19,14 +19,11 @@ jobs:
           gcc --version
 
       # 2. Formatting (Clause 8.2)
-      # Checks .c/.h files recursively.
-      # Ignores 'vendor', 'build', 'packages', and hidden git files.
       - name: Verify Code Style
         run: |
           find . -type f \( -name "*.c" -o -name "*.h" \) \
             -not -path "./vendor/*" \
             -not -path "./build/*" \
-            -not -path "./packages/*" \
             -not -path "./.git/*" \
             | xargs clang-format --dry-run --Werror
 
@@ -45,6 +42,5 @@ jobs:
         run: make
 
       # 5. Runtime Verification (Clause 4)
-      # If 'make test' exits with code 1 (due to main.c returning 1), this step FAILS.
       - name: Execute Test Suite
         run: make test

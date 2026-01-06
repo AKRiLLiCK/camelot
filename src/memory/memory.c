@@ -18,63 +18,63 @@
 // --- INTERNAL IMPLEMENTATION ---
 
 static Arena internal_create(u64 size) {
-  void *mem = malloc(size);
-  if (!mem) {
-    return (Arena){.status = OOM};
-  }
+	void *mem = malloc(size);
+	if (!mem) {
+		return (Arena){.status = OOM};
+	}
 
-  // Zero out immediately for security
-  memset(mem, 0, size);
+	// Zero out immediately for security
+	memset(mem, 0, size);
 
-  return (Arena){
-      .buf = (u8 *)mem,
-      .cap = size,
-      .len = 0,
-      .status = OK,
-  };
+	return (Arena){
+		.buf = (u8 *)mem,
+		.cap = size,
+		.len = 0,
+		.status = OK,
+	};
 }
 
 static void internal_release(Arena *a) {
-  if (a->buf) {
-    free(a->buf);
-    a->buf = NULL;
-  }
-  a->cap = 0;
-  a->len = 0;
+	if (a->buf) {
+		free(a->buf);
+		a->buf = NULL;
+	}
+	a->cap = 0;
+	a->len = 0;
 }
 
 static void internal_clear(Arena *a) {
-  // SECURITY: Null the memory as requested before resetting cursor
-  if (a->buf && a->len > 0) {
-    memset(a->buf, 0, a->len);
-  }
-  a->len = 0;
+	// SECURITY: Null the memory as requested before resetting cursor
+	if (a->buf && a->len > 0) {
+		memset(a->buf, 0, a->len);
+	}
+	a->len = 0;
 }
 
 static void *internal_alloc(Arena *a, u64 size) {
-  if (a->status != OK)
-    return NULL;
+	if (a->status != OK)
+		return NULL;
 
-  uintptr_t address = (uintptr_t)a->buf + a->len;
-  // 8-byte alignment
-  u64 padding = (8 - (address % 8)) % 8;
+	uintptr_t address = (uintptr_t)a->buf + a->len;
+	// 8-byte alignment
+	u64 padding = (8 - (address % 8)) % 8;
 
-  if (a->len + padding + size > a->cap) {
-    a->status = OOM;
-    return NULL;
-  }
+	if (a->len + padding + size > a->cap) {
+		a->status = OOM;
+		return NULL;
+	}
 
-  a->len += padding;
-  void *p = &a->buf[a->len];
-  a->len += size;
-  return p;
+	a->len += padding;
+	void *p = &a->buf[a->len];
+	a->len += size;
+	return p;
 }
 
 // --- NAMESPACE ---
 
 const ArenaNamespace arena = {
-    .create = internal_create,
-    .release = internal_release,
-    .clear = internal_clear,
-    .alloc = internal_alloc,
+	.create = internal_create,
+	.release = internal_release,
+	.clear = internal_clear,
+	.alloc = internal_alloc,
 };

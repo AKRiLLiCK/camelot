@@ -5,10 +5,7 @@ AR      = ar
 CFLAGS  = -I include -Wall -Wextra -std=c2x -Wno-unused-function
 
 # 1. Source Directories
-SRCS    = $(wildcard src/memory/*.c) \
-          $(wildcard src/types/*.c) \
-          $(wildcard src/io/*.c) \
-          $(wildcard src/ds/*.c)
+SRCS    = $(wildcard src/*/*.c)
 
 # 2. Test Source
 TEST_SRCS = $(wildcard tests/*.c)
@@ -31,7 +28,7 @@ dirs:
 	@mkdir -p $(OUT_DIR)
 
 # --- TEST SUITE ---
-# If ./test_runner returns 1, Make will abort with "Error 1", failing the CI.
+# Critical: No '-' before the command. If ./test_runner fails, Make fails.
 test: dirs
 	@echo " [CC]   Compiling Test Suite..."
 	@$(CC) $(CFLAGS) $(TEST_SRCS) $(SRCS) -o $(TARGET)
