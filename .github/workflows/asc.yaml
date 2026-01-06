@@ -1,4 +1,4 @@
-name: ASC-1.1 Compliance
+name: ASC-1.2 Compliance
 # Authority: Avant Systems Canon (Clause 8)
 
 on: [push, pull_request]
