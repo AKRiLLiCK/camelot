@@ -3,13 +3,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  *
- * Governed by the Avant Systems Canon (ASC-1.1).
+ * Governed by the Avant Systems Canon (ASC-1.2).
  * Compliance is mandatory for all contributions.
  */
 
 #include "tests.h"
 
-// Test Suites
+// External Test Suites (Defined in other files)
 extern void test_types();
 extern void test_memory();
 extern void test_io();
@@ -17,24 +17,28 @@ extern void test_files();
 extern void test_ds();
 
 int main() {
-  printf("\n[CAMELOT TEST RUNNER]\n");
-  printf("---------------------\n");
+	printf("\n[ASC-1.2] RUNNING VERIFICATION SUITE\n");
+	printf("--------------------------------------\n");
 
-  test_types();
-  test_memory();
-  test_io();
-  test_files();
-  test_ds();
+	// 1. Execute Suites
+	test_types();
+	test_memory();
+	test_io();
+	test_files();
+	test_ds();
 
-  printf("---------------------\n");
-  printf("Tests Run: %d\n", tests_run);
-  printf("Tests Failed: %d\n", tests_failed);
+	printf("--------------------------------------\n");
+	printf("Tests Run:    %d\n", tests_run);
+	printf("Tests Failed: %d\n", tests_failed);
 
-  if (tests_failed == 0) {
-    printf("[V] ALL TESTS PASSED\n");
-    return 0;
-  } else {
-    printf("[X] SOME TESTS FAILED\n");
-    return 1;
-  }
+	// 2. THE DECISION GATE
+	// Return 0 = Success (Green Checkmark)
+	// Return 1 = Failure (Red X, blocks merge)
+	if (tests_failed == 0) {
+		printf("[V] SYSTEM INTEGRITY VERIFIED.\n");
+		return 0; 
+	} else {
+		printf("[X] INTEGRITY VIOLATION DETECTED.\n");
+		return 1;
+	}
 }

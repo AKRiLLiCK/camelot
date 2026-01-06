@@ -4,51 +4,41 @@ CC      = gcc
 AR      = ar
 CFLAGS  = -I include -Wall -Wextra -std=c2x -Wno-unused-function
 
-# VERSIONING
-# Updated: Looks for camelot.h in the root include folder
-VERSION := $(shell grep 'define CAMELOT_VERSION' include/camelot.h | cut -d '"' -f 2)
-
 # 1. Source Directories
-SRC_DIR = src
 SRCS    = $(wildcard src/memory/*.c) \
           $(wildcard src/types/*.c) \
           $(wildcard src/io/*.c) \
           $(wildcard src/ds/*.c)
 
-# 2. Test Source Directories
+# 2. Test Source
 TEST_SRCS = $(wildcard tests/*.c)
 
 # 3. Object Files
 OBJS    = $(SRCS:.c=.o)
 
 # 4. Output Configuration
-OUT_DIR = packages
-DIST    = $(OUT_DIR)/dist
+OUT_DIR = build
 TARGET  = $(OUT_DIR)/test_runner
-LIB     = $(DIST)/lib/libcamelot.a
+LIB     = $(OUT_DIR)/libcamelot.a
 
 # --- RULES ---
 
-.PHONY: all clean test package dirs
+.PHONY: all clean test dirs
 
-all: package
+all: $(LIB)
 
 dirs:
 	@mkdir -p $(OUT_DIR)
-	@mkdir -p $(DIST)/lib
-	@mkdir -p $(DIST)/include
 
 # --- TEST SUITE ---
+# If ./test_runner returns 1, Make will abort with "Error 1", failing the CI.
 test: dirs
-	@echo " [INFO] Camelot v$(VERSION)"
 	@echo " [CC]   Compiling Test Suite..."
-	# FIX: Include all test sources (TEST_SRCS) in the build command
 	@$(CC) $(CFLAGS) $(TEST_SRCS) $(SRCS) -o $(TARGET)
 	@echo " [EXEC] Running Tests..."
-	@echo "--------------------------------------------------"
 	@./$(TARGET)
 
-# --- PACKAGE GENERATION ---
+# --- LIBRARY GENERATION ---
 
 %.o: %.c
 	@echo " [CC]   $<"
@@ -58,44 +48,6 @@ $(LIB): dirs $(OBJS)
 	@echo " [AR]   Creating Static Library..."
 	@$(AR) rcs $(LIB) $(OBJS)
 	@rm -f $(OBJS)
-
-package: $(LIB)
-	@echo " [INFO] Building Camelot v$(VERSION)"
-	@echo " [CP]   Copying Headers..."
-	# Copies include/camelot.h and all subfolders (camelot/, types/, ds/)
-	@cp -r include/* $(DIST)/include/
-	
-	@echo " [GEN]  Generating Installers..."
-	
-	# 1. Linux/macOS Installer
-	@echo "#!/bin/bash" > $(DIST)/install.sh
-	@echo "if [ \"\$$EUID\" -ne 0 ]; then echo 'Please run as root'; exit; fi" >> $(DIST)/install.sh
-	@echo "echo '[*] Installing Camelot v$(VERSION)...'" >> $(DIST)/install.sh
-	
-	# Copy headers to system path
-	@echo "cp -r include/* /usr/local/include/" >> $(DIST)/install.sh
-	
-	# Copy library
-	@echo "cp lib/libcamelot.a /usr/local/lib/" >> $(DIST)/install.sh
-	@echo "echo '[V] Camelot Installed! Link with: -lcamelot'" >> $(DIST)/install.sh
-	@chmod +x $(DIST)/install.sh
-	
-	# 2. Windows Installer
-	@echo "@echo off" > $(DIST)/install.bat
-	@echo "echo [*] Installing Camelot v$(VERSION) to C:\\Camelot..." >> $(DIST)/install.bat
-	
-	@echo "if not exist \"C:\\Camelot\" mkdir \"C:\\Camelot\"" >> $(DIST)/install.bat
-	@echo "xcopy /E /Y include \"C:\\Camelot\\include\\\" >NUL" >> $(DIST)/install.bat
-	@echo "xcopy /E /Y lib \"C:\\Camelot\\lib\\\" >NUL" >> $(DIST)/install.bat
-	
-	@echo "echo [*] Registering Environment Variables..." >> $(DIST)/install.bat
-	@echo "setx C_INCLUDE_PATH \"C:\\Camelot\\include\" >NUL" >> $(DIST)/install.bat
-	@echo "setx LIBRARY_PATH \"C:\\Camelot\\lib\" >NUL" >> $(DIST)/install.bat
-	
-	@echo "echo [V] Installation Complete!" >> $(DIST)/install.bat
-	@echo "pause" >> $(DIST)/install.bat
-
-	@echo " [DONE] Package v$(VERSION) ready at: $(DIST)/"
 
 clean:
 	@echo " [RM]   Cleaning artifacts..."

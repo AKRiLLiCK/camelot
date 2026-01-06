@@ -5,17 +5,16 @@ end_of_line = lf
 insert_final_newline = true
 charset = utf-8
 trim_trailing_whitespace = true
+indent_style = tab
+indent_size = 4
 
-# C Source (Handled strictly by Clang-Format, but fallback here)
 [*.{c,h}]
-indent_style = space
-indent_size = 2
+indent_style = tab
+indent_size = 4
 
-# Makefiles (Must use Tabs)
 [Makefile]
 indent_style = tab
 
-# YAML / Markdown (GitHub workflows, docs)
 [*.{yaml,yml,md}]
 indent_style = space
 indent_size = 2
